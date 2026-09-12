@@ -9,6 +9,15 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
 
 An offline-capable, fictional economic simulation for explaining Night Float. It does not connect to real wallets, contain partner data, or represent regulatory approval.
 
+## Live links
+
+- [Night Float control room](https://ma-za-kpe.github.io/NightFloat-pages/)
+- [Glossary and layperson guide](https://ma-za-kpe.github.io/NightFloat-pages/glossary/)
+- [MoMo FinTech Lab pitch](https://ma-za-kpe.github.io/NightFloat-pages/pitch/)
+- [Public deployment artifacts](https://github.com/ma-za-kpe/NightFloat-pages)
+
+Owner and contact: [Maku Pauline Mazakpe](https://startuptribunal.com/maku) · [LinkedIn](https://www.linkedin.com/in/maku-mazakpe/) · [GitHub](https://github.com/ma-za-kpe) · [X](https://x.com/makumazakpe) · [StartupTribunal X](https://x.com/startuptribunal)
+
 ## Run with Docker
 
 From the repository root:
