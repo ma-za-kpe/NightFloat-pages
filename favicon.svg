@@ -1,0 +1,11 @@
+<!--
+Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Unauthorized use, copying, modification, or distribution is prohibited without written permission.
+Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
+X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
+-->
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="16" fill="#0e111c"/>
+  <path d="M18 42V30M32 42V18M46 42V25" stroke="#ffcf33" stroke-width="8" stroke-linecap="round"/>
+</svg>

@@ -1,0 +1,742 @@
+<!--
+Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Unauthorized use, copying, modification, or distribution is prohibited without written permission.
+Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
+X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Night Float economic wind tunnel — a deterministic fictional simulation of agent liquidity."
+    />
+    <title>Night Float — Economic Wind Tunnel</title>
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span><span></span><span></span>
+          </div>
+          <div>
+            <p class="eyebrow">Agent-liquidity concept model</p>
+            <h1>Night Float <span>Economic Wind Tunnel</span></h1>
+          </div>
+        </div>
+
+        <div
+          class="scenario-switch"
+          role="group"
+          aria-label="Scenario selector"
+        >
+          <button class="scenario-button" data-scenario="off">
+            <span class="scenario-dot off"></span>Baseline
+          </button>
+          <button class="scenario-button active" data-scenario="on">
+            <span class="scenario-dot on"></span>Night Float
+          </button>
+          <button class="scenario-button" data-scenario="stress">
+            <span class="scenario-dot stress"></span>Stress
+          </button>
+          <button
+            class="info-button"
+            data-info="Runs the same fictional market under three presets. Baseline has no scheduled facility; Night Float uses the partner-backed facility; Stress adds settlement failures."
+            aria-label="Explain scenario selector"
+          >
+            i
+          </button>
+        </div>
+
+        <div class="header-actions">
+          <a class="ghost-button page-link" href="./pitch/">Pitch</a>
+          <a class="ghost-button page-link" href="./glossary/">Guide</a>
+          <span class="header-feature"
+            ><button id="tourButton" class="ghost-button">
+              <span class="play-icon">▶</span> Guided run</button
+            ><button
+              class="info-button"
+              data-info="Plays the five-act Baseline → Night Float → constraint → Stress → assumptions story in under 90 seconds. No audio is required."
+              aria-label="Explain guided run"
+            >
+              i
+            </button></span
+          >
+          <span class="header-feature"
+            ><button id="assumptionsButton" class="ghost-button">
+              Assumptions</button
+            ><button
+              class="info-button"
+              data-info="Opens the complete model sheet for review, photography, print, or save-to-PDF."
+              aria-label="Explain assumptions sheet"
+            >
+              i
+            </button></span
+          >
+          <div id="seedPill" class="live-pill"><span></span>Seed 2026</div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <section class="stage-panel" aria-label="Animated market simulation">
+          <div class="stage-heading">
+            <div>
+              <p class="eyebrow">
+                Fictional one-market economy
+                <button
+                  class="info-button"
+                  data-info="A stylised, synthetic Madina market with 50 agents and three customer cohorts. No partner or customer data is used."
+                  aria-label="Explain the market model"
+                >
+                  i
+                </button>
+              </p>
+              <h2>Madina morning liquidity corridor</h2>
+              <p class="night-strip">
+                21:00 forecast → 05:30 approval → <b>05:45 presenter start</b>
+              </p>
+            </div>
+            <div class="clock-block">
+              <span id="dayLabel">NEXT DAY</span
+              ><strong id="clock">05:45</strong>
+            </div>
+            <div class="status-stack">
+              <div id="phaseBadge" class="phase-badge">PRE-OPEN</div>
+              <div class="books-line">
+                <div id="booksBadge" class="books-badge ok">BOOKS OK</div>
+                <button
+                  class="info-button"
+                  data-info="Two ledgers reconcile on every tick: facility principal and customer safeguarding. A delta above GHS 0.02 aborts the simulation as BOOKS BROKEN."
+                  aria-label="Explain books status"
+                >
+                  i
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="canvas-wrap">
+            <canvas id="marketStaticCanvas" aria-hidden="true"></canvas>
+            <canvas
+              id="marketCanvas"
+              role="img"
+              aria-label="Map of simulated mobile-money agents"
+            ></canvas>
+            <canvas id="packetCanvas" aria-hidden="true"></canvas>
+            <div id="eventBanner" class="event-banner" aria-live="polite"></div>
+            <div class="legend">
+              <span><i class="light green"></i>Healthy</span
+              ><span><i class="light amber"></i>At risk</span>
+              <span><i class="light red"></i>Cash-in refused</span
+              ><span><i class="light purple"></i>Cash-out refused</span>
+              <span><i class="ring"></i>Facility active</span
+              ><span><i class="idle-ring"></i>Idle allocation</span
+              ><span><i class="declined-ring"></i>Price declined</span>
+            </div>
+            <div class="model-watermark">SIMULATED DATA · NOT PARTNER DATA</div>
+          </div>
+
+          <div class="ledger-ribbon" role="group" aria-label="Facility ledger">
+            <span>Allocated <strong id="ledgerAllocated">GHS 0</strong></span
+            ><span>Utilised <strong id="ledgerUtilised">GHS 0</strong></span>
+            <span>Idle <strong id="ledgerIdle">GHS 0</strong></span
+            ><span>Drawer cash <strong id="ledgerCash">GHS 0</strong></span>
+            <button
+              class="info-button"
+              data-info="Allocated is approved principal. Utilised is principal actually consumed by cash-ins. Idle is unused facility e-float. Drawer cash rises as cash-ins consume e-float."
+              aria-label="Explain the facility ledger"
+            >
+              i
+            </button>
+          </div>
+
+          <div class="transport">
+            <button
+              id="playButton"
+              class="transport-button"
+              aria-label="Play or pause"
+            >
+              Ⅱ
+            </button>
+            <button
+              id="restartButton"
+              class="transport-button secondary"
+              aria-label="Return to presenter start at 05:45"
+            >
+              ↺
+            </button>
+            <button
+              id="nightButton"
+              class="speed-button"
+              aria-label="Jump to 21:00 night window"
+            >
+              21h
+            </button>
+            <button
+              id="speedButton"
+              class="speed-button"
+              aria-label="Playback speed"
+            >
+              4×
+            </button>
+            <div class="timeline-wrap">
+              <input
+                id="timeline"
+                type="range"
+                min="0"
+                max="95"
+                value="35"
+                aria-label="Simulation time"
+              />
+              <div class="timeline-labels" aria-hidden="true">
+                <span>21:00</span><span>00:00</span><span>06:00</span
+                ><span>12:00</span><span>18:00</span><span>20:45</span>
+              </div>
+            </div>
+            <button
+              class="info-button"
+              data-info="Playback only reads a precomputed 96-tick tape. Pause and scrubbing cannot change the model or desynchronise the animation."
+              aria-label="Explain playback controls"
+            >
+              i
+            </button>
+          </div>
+        </section>
+
+        <aside class="control-panel" aria-label="Simulation controls">
+          <div class="control-heading">
+            <div>
+              <p class="eyebrow">Change the economy</p>
+              <h2>
+                Assumption controls
+                <button
+                  class="info-button"
+                  data-info="Every change regenerates both active and identical-seed baseline tapes. Reset restores the documented partner-backed defaults."
+                  aria-label="Explain assumption controls"
+                >
+                  i
+                </button>
+              </h2>
+            </div>
+            <button id="resetButton" class="text-button">Reset</button>
+          </div>
+
+          <label class="select-control">
+            <span class="label-with-info"
+              >Funding model
+              <button
+                type="button"
+                class="info-button"
+                data-info="Partner-backed is the default legal product. Customer-supported is an unresolved sandbox hypothesis and never appears as equally approved."
+                aria-label="Explain funding model"
+              >
+                i
+              </button></span
+            >
+            <select id="fundingModel">
+              <option value="partner">Partner-backed · default</option>
+              <option value="customer">
+                Customer-supported · unresolved hypothesis
+              </option>
+            </select>
+          </label>
+          <div id="legalWarning" class="legal-warning" hidden>
+            <strong>Classification unresolved</strong>Customer redemption, legal
+            claim, fee sharing, and loss ownership require written approval.
+            This mode does not establish lawfulness.
+          </div>
+
+          <div class="slider-group customer-only">
+            <label for="optIn"
+              ><span class="label-with-info"
+                >Customer opt-in
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Sets the lock-eligible overnight subset only in customer-supported hypothesis mode. It does not affect partner-backed capacity."
+                  aria-label="Explain customer opt-in"
+                >
+                  i
+                </button></span
+              ><output id="optInValue">36%</output></label
+            >
+            <input id="optIn" type="range" min="0" max="80" value="36" />
+          </div>
+          <div class="slider-group">
+            <label for="defaultRate"
+              ><span class="label-with-info"
+                >Agent default risk
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="A deterministic seeded risk roll. Missed principal freezes the till and removes it from tomorrow’s allocation file."
+                  aria-label="Explain default risk"
+                >
+                  i
+                </button></span
+              ><output id="defaultRateValue">2.0%</output></label
+            >
+            <input
+              id="defaultRate"
+              type="range"
+              min="0"
+              max="20"
+              value="2"
+              step="0.5"
+            />
+          </div>
+          <div class="slider-group">
+            <label for="facilityFee"
+              ><span class="label-with-info"
+                >Agent facility fee
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Charged only on utilised principal. Higher prices cause some eligible agents to decline allocation; fees never accrue on idle allocation."
+                  aria-label="Explain facility fee"
+                >
+                  i
+                </button></span
+              ><output id="facilityFeeValue">0.5%</output></label
+            >
+            <input
+              id="facilityFee"
+              type="range"
+              min="0.1"
+              max="1.2"
+              value="0.5"
+              step="0.1"
+            />
+          </div>
+
+          <div class="derived-pricing">
+            <span>Derived fee split</span>
+            <p id="feeSplitSummary">
+              Funder 38% · MMFL 27% · Platform 22% · Operations 13%
+            </p>
+            <button
+              class="info-button"
+              data-info="Fixed assumptions replace extra price sliders. In customer-supported mode, users receive a fee_share—never interest—and the legal warning remains active."
+              aria-label="Explain fee split"
+            >
+              i
+            </button>
+          </div>
+
+          <div class="slider-group">
+            <label for="demand"
+              ><span class="label-with-info"
+                >Market demand
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Scales seeded cash-in and cash-out arrivals while preserving the same underlying demand tape for scenario comparison."
+                  aria-label="Explain market demand"
+                >
+                  i
+                </button></span
+              ><output id="demandValue">100%</output></label
+            >
+            <input
+              id="demand"
+              type="range"
+              min="50"
+              max="180"
+              value="100"
+              step="5"
+            />
+          </div>
+          <div class="slider-group">
+            <label for="cashOutShare"
+              ><span class="label-with-info"
+                >Cash-out-heavy agents
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Changes corridor mix. Night Float adds e-float, so an all cash-out-heavy market should show almost no cash-in benefit."
+                  aria-label="Explain cash-out-heavy agents"
+                >
+                  i
+                </button></span
+              ><output id="cashOutShareValue">10%</output></label
+            >
+            <input
+              id="cashOutShare"
+              type="range"
+              min="0"
+              max="100"
+              value="10"
+              step="5"
+            />
+          </div>
+          <div class="slider-group">
+            <label for="bookCap"
+              ><span class="label-with-info"
+                >Facility book cap
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Maximum modelled principal. Raising it helps only until price acceptance, eligibility, or demand becomes the binding constraint."
+                  aria-label="Explain book cap"
+                >
+                  i
+                </button></span
+              ><output id="bookCapValue">GHS 100k</output></label
+            >
+            <input
+              id="bookCap"
+              type="range"
+              min="20"
+              max="500"
+              value="100"
+              step="10"
+            />
+          </div>
+          <div class="slider-group">
+            <label for="scoreThreshold"
+              ><span class="label-with-info"
+                >Risk-score threshold
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Static 0–1 eligibility lamp—not machine learning. If scoring is unavailable, a stricter transparent fallback halves limits."
+                  aria-label="Explain score threshold"
+                >
+                  i
+                </button></span
+              ><output id="scoreThresholdValue">0.68</output></label
+            >
+            <input
+              id="scoreThreshold"
+              type="range"
+              min="0.50"
+              max="0.90"
+              value="0.68"
+              step="0.02"
+            />
+          </div>
+
+          <div class="partner-controls">
+            <div class="section-label">
+              <span>Partner resilience</span><small>Toggle an outage</small>
+            </div>
+            <label class="partner-row"
+              ><span
+                ><i class="partner-icon mmfl">M</i><b>MMFL rails</b
+                ><button
+                  type="button"
+                  class="info-button"
+                  data-info="Required for any wallet allocation. Off means no gold facility packets."
+                  aria-label="Explain MMFL rails"
+                >
+                  i
+                </button></span
+              ><input
+                class="toggle"
+                id="mmflToggle"
+                type="checkbox"
+                aria-label="MMFL rails available"
+                checked
+            /></label>
+            <label class="partner-row"
+              ><span
+                ><i class="partner-icon bank">F</i><b>Funding partner</b
+                ><button
+                  type="button"
+                  class="info-button"
+                  data-info="Supplies the partner-backed facility. Off forces partner-backed capacity and allocations to zero."
+                  aria-label="Explain funding partner"
+                >
+                  i
+                </button></span
+              ><input
+                class="toggle"
+                id="bankToggle"
+                type="checkbox"
+                aria-label="Funding partner available"
+                checked
+            /></label>
+            <label class="partner-row"
+              ><span
+                ><i class="partner-icon score">S</i><b>Scoring service</b
+                ><button
+                  type="button"
+                  class="info-button"
+                  data-info="Provides a static eligibility score. Off activates a conservative rules-only fallback; no fake learning model is used."
+                  aria-label="Explain scoring service"
+                >
+                  i
+                </button></span
+              ><input
+                class="toggle"
+                id="scoreToggle"
+                type="checkbox"
+                aria-label="Scoring service available"
+                checked
+            /></label>
+            <label class="partner-row"
+              ><span
+                ><i class="partner-icon sweep">↗</i><b>Dusk sweeper</b
+                ><button
+                  type="button"
+                  class="info-button"
+                  data-info="Converts only drawer notes that exist into e-value. Off increases shortfalls; it cannot sweep imaginary cash."
+                  aria-label="Explain dusk sweeper"
+                >
+                  i
+                </button></span
+              ><input
+                class="toggle"
+                id="sweepToggle"
+                type="checkbox"
+                aria-label="Dusk sweeper available"
+                checked
+            /></label>
+          </div>
+        </aside>
+
+        <section class="evidence-panel" aria-label="Simulation evidence">
+          <div class="metrics-grid">
+            <div class="metric-card primary">
+              <div class="metric-label">
+                <span
+                  >Refused cash-ins
+                  <button
+                    class="info-button"
+                    data-info="Cash-in only. Formula: identical-baseline refused cash-ins minus active-run refused cash-ins. Cash-out failures are excluded."
+                    aria-label="Explain refused cash-ins"
+                  >
+                    i
+                  </button></span
+                ><i>PRIMARY</i>
+              </div>
+              <strong id="refusedMetric">0</strong>
+              <p id="refusedDelta">Waiting for market open</p>
+              <code id="comparisonFormula"
+                >baseline cash-in − active cash-in</code
+              >
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">
+                <span
+                  >Facility utilised
+                  <button
+                    class="info-button"
+                    data-info="Utilised principal divided by allocated principal. Idle allocation is disclosed and earns no fee."
+                    aria-label="Explain facility utilisation"
+                  >
+                    i
+                  </button></span
+                >
+              </div>
+              <strong id="utilisedMetric">0%</strong>
+              <p id="allocatedMetric">GHS 0 allocated · GHS 0 idle</p>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">
+                <span
+                  >Settled principal
+                  <button
+                    class="info-button"
+                    data-info="Share of allocated principal returned at 18:00. Defaulted tills are excluded from tomorrow’s file."
+                    aria-label="Explain settlement"
+                  >
+                    i
+                  </button></span
+                >
+              </div>
+              <strong id="settledMetric">—</strong>
+              <p id="defaultMetric">Settlement pending</p>
+            </div>
+            <div class="metric-card">
+              <div class="metric-label">
+                <span
+                  >System result
+                  <button
+                    class="info-button"
+                    data-info="Facility fees on utilised principal minus unresolved default loss. The waterfall identifies each fee recipient."
+                    aria-label="Explain system result"
+                  >
+                    i
+                  </button></span
+                ><i>MODEL</i>
+              </div>
+              <strong id="profitMetric">GHS 0</strong>
+              <p id="feeMetric">Gross fees GHS 0</p>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Same economy, same seed</p>
+                <h3>
+                  Cash-in refusals over the day
+                  <button
+                    class="info-button"
+                    data-info="Both lines use seed 2026, identical agents, and identical demand. Only the intervention differs. Press B in presenter mode to emphasise baseline."
+                    aria-label="Explain comparison chart"
+                  >
+                    i
+                  </button>
+                </h3>
+              </div>
+              <div class="chart-key">
+                <span class="active-key"></span>Active
+                <span class="base-key"></span>Baseline
+              </div>
+            </div>
+            <canvas
+              id="chartCanvas"
+              role="img"
+              aria-label="Comparison chart of refused cash-ins"
+            ></canvas>
+          </div>
+          <div class="incident-card">
+            <div class="card-heading">
+              <div>
+                <p class="eyebrow">Explain the holes</p>
+                <h3>
+                  Incident &amp; decision log
+                  <button
+                    class="info-button"
+                    data-info="Records partner outages, price rejection, physical-cash constraints, defaults, safeguards, and unresolved decisions."
+                    aria-label="Explain incident log"
+                  >
+                    i
+                  </button>
+                </h3>
+              </div>
+              <span id="incidentCount" class="count-pill">0</span>
+            </div>
+            <div
+              id="incidentList"
+              class="incident-list"
+              aria-live="polite"
+            ></div>
+          </div>
+
+          <div class="boundary-card">
+            <div>
+              <p class="eyebrow">Camera-safe boundary</p>
+              <h3>
+                What this simulation does not claim
+                <button
+                  class="info-button"
+                  data-info="These boundaries stay visible so a screenshot cannot turn assumptions into partner claims."
+                  aria-label="Explain model boundaries"
+                >
+                  i
+                </button>
+              </h3>
+            </div>
+            <ul>
+              <li>No BoG approval</li>
+              <li>No MMFL or partner data</li>
+              <li>No claim customer-lock is lawful</li>
+              <li>No FX, E-Levy, or tax</li>
+              <li>No multi-network model</li>
+              <li>No learning score</li>
+            </ul>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer">
+        <div>
+          <strong>Night Float</strong
+          ><span
+            >Proprietary and Confidential · © 2026 Maku Pauline Mazakpe</span
+          >
+        </div>
+        <nav aria-label="Footer navigation">
+          <a href="./">Control room</a><a href="./glossary/">Glossary</a
+          ><a href="./pitch/">Pitch deck</a
+          ><a href="https://startuptribunal.com/maku">Contact Maku</a>
+        </nav>
+      </footer>
+    </div>
+
+    <dialog id="assumptionsDialog">
+      <form method="dialog" class="dialog-card">
+        <div class="dialog-heading">
+          <div>
+            <p class="eyebrow">One-page model sheet</p>
+            <h2>Night Float assumptions &amp; boundaries</h2>
+          </div>
+          <button aria-label="Close">×</button>
+        </div>
+        <div class="dialog-actions">
+          <button type="button" id="printAssumptions" class="ghost-button">
+            Print / save PDF</button
+          ><label
+            ><input id="reducedMotionToggle" type="checkbox" /> Reduce
+            motion</label
+          >
+        </div>
+        <div id="assumptionTable" class="assumption-table"></div>
+        <div class="dialog-grid">
+          <section>
+            <h3>Three customer cohorts only</h3>
+            <ul>
+              <li>Cash-in / market and supplier pay</li>
+              <li>Cash-out / notes home</li>
+              <li>Overnight lock-eligible subset</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Two machine-checked identities</h3>
+            <ul>
+              <li>
+                Facility source = unallocated + idle + utilised + repaid +
+                explained loss
+              </li>
+              <li>
+                Customer claims = safeguarded vault balance + explained customer
+                loss
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h3>Not established</h3>
+            <ul>
+              <li>Regulatory or partner approval</li>
+              <li>Lawfulness of customer-supported funding</li>
+              <li>Factual demand, pricing, or loss rates</li>
+              <li>Predictive or machine-learning accuracy</li>
+            </ul>
+          </section>
+          <section>
+            <h3>Presenter controls</h3>
+            <ul>
+              <li>Keys 1–5: jump to acts</li>
+              <li>Space: play/pause</li>
+              <li>[ and ]: step one tick</li>
+              <li>B: baseline comparison emphasis</li>
+            </ul>
+          </section>
+        </div>
+        <p class="dialog-note">
+          All people, balances, packets, incidents, prices, and partner states
+          are fictional model data. Customer-supported mode is a hypothesis, not
+          the default product.
+        </p>
+      </form>
+    </dialog>
+
+    <div
+      id="infoPopover"
+      class="info-popover"
+      role="status"
+      aria-live="polite"
+      hidden
+    ></div>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

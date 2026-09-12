@@ -1,0 +1,741 @@
+<!--
+Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Unauthorized use, copying, modification, or distribution is prohibited without written permission.
+Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
+X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
+-->
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Plain-language guide to the Night Float economic simulation, colours, flows, controls, and financial terms."
+    />
+    <title>Night Float — Glossary &amp; Model Guide</title>
+    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./glossary.css" />
+  </head>
+  <body>
+    <header class="guide-header">
+      <a class="brand" href="../"
+        ><span class="brand-bars" aria-hidden="true"><i></i><i></i><i></i></span
+        ><span
+          ><b>Night Float</b><small>Glossary &amp; model guide</small></span
+        ></a
+      >
+      <nav aria-label="Main navigation">
+        <a href="../">Control room</a><a href="../pitch/">Pitch deck</a
+        ><a class="active" href="./" aria-current="page">Glossary</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Start here · no finance background needed</p>
+          <h1>
+            Understand the whole model<br /><span>without guessing.</span>
+          </h1>
+          <p class="lede">
+            Night Float is a fictional, adjustable test economy. This guide
+            explains what every colour, line, moving packet, balance, control,
+            and financial word means—and what it does <em>not</em> prove.
+          </p>
+          <div class="hero-actions">
+            <a class="primary" href="#quick-start">How to use it</a
+            ><a href="#dictionary">Browse all terms</a>
+          </div>
+        </div>
+        <aside class="truth-card">
+          <span>THE ONE-SENTENCE VERSION</span
+          ><strong
+            >A short-duration partner facility puts e-float on selected
+            cash-in-heavy tills before the morning queue, then asks for
+            principal and a fee back at 18:00.</strong
+          >
+          <p>It is a simulation for discussion. It does not move real money.</p>
+        </aside>
+      </section>
+
+      <section id="quick-start" class="section-block">
+        <div class="section-heading">
+          <p class="eyebrow">A five-minute tour</p>
+          <h2>How to use the control room</h2>
+        </div>
+        <ol class="steps">
+          <li>
+            <span>1</span>
+            <div>
+              <b>Begin with Baseline.</b>
+              <p>
+                Watch tills refuse cash-ins and grey/red dashed emergency A2A
+                transfers appear. This is the “without Night Float” comparison.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>2</span>
+            <div>
+              <b>Switch to Night Float.</b>
+              <p>
+                At 06:00, gold packets travel from the MMFL pool to eligible
+                agents. Compare refused cash-ins against the same seeded
+                Baseline.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>3</span>
+            <div>
+              <b>Move the time slider.</b>
+              <p>
+                Scrub from 05:45 through the morning peak, 16:00 sweep, and
+                18:00 settlement. Pausing never changes the precomputed result.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>4</span>
+            <div>
+              <b>Change one assumption.</b>
+              <p>
+                Try fee, demand, cash-out mix, default risk, book cap, or score
+                threshold. Each change regenerates both comparison tapes.
+              </p>
+            </div>
+          </li>
+          <li>
+            <span>5</span>
+            <div>
+              <b>Break a dependency.</b>
+              <p>
+                Turn off MMFL, the funder, scoring, or the sweeper. The incident
+                log explains the consequence, safeguard, residual exposure, and
+                decision.
+              </p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <section class="section-block decode">
+        <div class="section-heading">
+          <p class="eyebrow">Visual language</p>
+          <h2>What every colour and symbol means</h2>
+          <p>
+            Colour is never the only signal: the model also uses words, shapes,
+            rings, line styles, incidents, and balance changes.
+          </p>
+        </div>
+        <div class="colour-grid">
+          <article>
+            <i class="swatch green"></i>
+            <div>
+              <h3>Green · healthy till</h3>
+              <p>
+                Enough combined own and idle facility e-float for expected
+                near-term cash-ins. It does not mean the agent is profitable or
+                risk-free.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="swatch amber"></i>
+            <div>
+              <h3>Amber · e-float at risk</h3>
+              <p>
+                The till may run short soon. It is a warning before a refusal,
+                not a default.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="swatch red">!</i>
+            <div>
+              <h3>Red + ! · cash-in refused</h3>
+              <p>
+                A customer has notes but the agent lacks e-float. Red is also
+                used for severe incidents and frozen/defaulted tills.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="swatch purple">□</i>
+            <div>
+              <h3>Purple + square · cash-out refused</h3>
+              <p>
+                The agent lacks physical notes. Night Float supplies e-float, so
+                this failure may remain even when cash-in performance improves.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="swatch gold"></i>
+            <div>
+              <h3>Gold · Night Float principal</h3>
+              <p>
+                An allocation packet or the active intervention line. Gold shows
+                identified facility value moving; it does not mean money was
+                created.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="swatch blue"></i>
+            <div>
+              <h3>Blue · partner / legal context</h3>
+              <p>
+                Funder role, facility-active ring, assumptions, or unresolved
+                customer classification. Blue is context—not proof of approval.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol solid-ring"></i>
+            <div>
+              <h3>Solid blue ring · facility active</h3>
+              <p>The till received approved facility principal.</p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol idle-ring"></i>
+            <div>
+              <h3>Dull gold ring · idle allocation</h3>
+              <p>
+                Facility e-float was allocated but not consumed by cash-ins.
+                Idle principal earns no facility fee.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol declined-ring"></i>
+            <div>
+              <h3>Grey dashed ring · price declined</h3>
+              <p>
+                The agent was considered but rejected the fee, so no allocation
+                was sent.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol freeze-cross">×</i>
+            <div>
+              <h3>Red cross · frozen till</h3>
+              <p>
+                Principal was not fully returned at settlement. The till is
+                excluded from tomorrow’s allocation file.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol cash-bar"></i>
+            <div>
+              <h3>Small vertical bar · drawer cash</h3>
+              <p>
+                Physical notes at the till. It rises on cash-in and falls on
+                cash-out or a sweep.
+              </p>
+            </div>
+          </article>
+          <article>
+            <i class="symbol books-ok">OK</i>
+            <div>
+              <h3>BOOKS OK / BROKEN</h3>
+              <p>
+                Both accounting identities reconcile within GHS 0.02. BROKEN
+                stops the model; it is never allowed to continue silently.
+              </p>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block flows">
+        <div class="section-heading">
+          <p class="eyebrow">Direction matters</p>
+          <h2>How to read every flow</h2>
+        </div>
+        <div class="flow-list">
+          <article>
+            <div class="flow-demo gold-flow">
+              <span>MMFL POOL</span><b>→</b><span>AGENT TILL</span>
+            </div>
+            <h3>06:00 · allocation travels outward</h3>
+            <p>
+              A solid gold route from pool to till means approved principal is
+              being allocated. The funding vault stays static; the path does not
+              originate at the vault.
+            </p>
+          </article>
+          <article>
+            <div class="flow-demo red-flow">
+              <span>AGENT A</span><b>⇢</b><span>AGENT B</span>
+            </div>
+            <h3>Morning · emergency A2A</h3>
+            <p>
+              A dashed grey/red route between agents exists only in Baseline. It
+              is capped at GHS 400, delayed 15 minutes, and limited to two
+              received hops.
+            </p>
+          </article>
+          <article>
+            <div class="flow-demo green-flow">
+              <span>AGENT CASH</span><b>→</b><span>SWEEPER</span>
+            </div>
+            <h3>16:00–18:00 · notes support settlement</h3>
+            <p>
+              A dashed green route means the sweeper converts only existing
+              drawer notes above the GHS 500 reserve into e-value. No notes
+              means no sweep.
+            </p>
+          </article>
+          <article>
+            <div class="flow-demo green-flow reverse">
+              <span>AGENT TILL</span><b>→</b><span>MMFL POOL</span>
+            </div>
+            <h3>18:00 · settlement returns inward</h3>
+            <p>
+              A green return route carries paid principal and fee toward the
+              pool. A shortfall turns the till into a frozen exception.
+            </p>
+          </article>
+          <article>
+            <div class="flow-demo blue-flow">
+              <span>CUSTOMER COHORT</span><b>→</b><span>LOCK RECORD</span>
+            </div>
+            <h3>21:00 · hypothesis lock record</h3>
+            <p>
+              Only customer-supported hypothesis mode shows this aggregate
+              record. The legal claim stays “still-customer”; the model does not
+              establish that reuse is lawful.
+            </p>
+          </article>
+          <article>
+            <div class="flow-demo static-flow">
+              <span>FUNDER VAULT</span><b>·</b><span>STATIC</span>
+            </div>
+            <h3>No movement · a deliberate legal picture</h3>
+            <p>
+              The funder role may support capacity, but operational allocation
+              does not animate the vault or change the safeguarded customer
+              balance.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section-block dashboard-guide">
+        <div class="section-heading">
+          <p class="eyebrow">Reading the evidence</p>
+          <h2>The four headline numbers</h2>
+        </div>
+        <div class="metric-explain">
+          <article>
+            <span>01</span>
+            <h3>Refused cash-ins</h3>
+            <p>
+              The primary outcome. “Avoided” equals Baseline cash-in refusals
+              minus active-run cash-in refusals, using the same seed. Cash-out
+              refusals are excluded.
+            </p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Facility utilised</h3>
+            <p>
+              Used principal divided by allocated principal. A low number means
+              capital sat idle, even if many gold packets appeared.
+            </p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Settled principal</h3>
+            <p>
+              The share of allocated principal returned at 18:00. The supporting
+              line shows frozen tills and explained principal loss.
+            </p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>System result</h3>
+            <p>
+              Fees on utilised principal minus unresolved default loss. Fee
+              shares explain distribution; they are not extra value.
+            </p>
+          </article>
+        </div>
+      </section>
+
+      <section id="dictionary" class="section-block dictionary">
+        <div class="section-heading">
+          <p class="eyebrow">Plain-language dictionary</p>
+          <h2>Every important keyword</h2>
+        </div>
+        <div class="dictionary-tools">
+          <label for="glossarySearch">Search terms or meanings</label>
+          <div>
+            <input
+              id="glossarySearch"
+              type="search"
+              placeholder="Try “e-float”, “red”, “fee”, “default”…"
+              autocomplete="off"
+            /><kbd>/</kbd>
+          </div>
+          <div class="filters" role="group" aria-label="Glossary categories">
+            <button class="active" data-filter="all">All</button
+            ><button data-filter="money">Money</button
+            ><button data-filter="market">Market</button
+            ><button data-filter="risk">Risk</button
+            ><button data-filter="partners">Partners</button
+            ><button data-filter="model">Model</button>
+          </div>
+          <p id="termCount" aria-live="polite"></p>
+        </div>
+        <dl id="termList" class="term-list">
+          <div data-category="market model">
+            <dt>A2A (agent-to-agent)</dt>
+            <dd>
+              An emergency transfer of e-float from one agent to another.
+              Baseline uses strict limits so A2A helps without magically solving
+              every shortage.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Allocated principal</dt>
+            <dd>
+              Facility money approved and placed on an agent position. It may
+              later be used, remain idle, be repaid, or default.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Assumption</dt>
+            <dd>
+              A number or rule chosen for the fictional model, not a fact
+              supplied by MMFL, a bank, BoG, or real customers.
+            </dd>
+          </div>
+          <div data-category="model market">
+            <dt>Avoided cash-in refusals</dt>
+            <dd>
+              Baseline refused cash-ins minus active-run refused cash-ins. A
+              positive result means the intervention served requests the
+              identical Baseline did not.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Baseline</dt>
+            <dd>
+              The same market and demand without scheduled Night Float
+              allocation. Limited emergency A2A remains active so it is a fairer
+              comparison.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Book cap</dt>
+            <dd>
+              The maximum total facility principal the fictional economy may
+              allocate. It prevents the model from solving shortages with
+              unlimited money.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Books / accounting identity</dt>
+            <dd>
+              A machine check that every cedi has an explained location or loss.
+              Two separate identities cover facility principal and customer
+              safeguarding.
+            </dd>
+          </div>
+          <div data-category="market money">
+            <dt>Cash-in</dt>
+            <dd>
+              A customer gives notes to an agent and receives wallet value. It
+              consumes agent e-float and increases drawer cash.
+            </dd>
+          </div>
+          <div data-category="market money">
+            <dt>Cash-out</dt>
+            <dd>
+              A customer gives wallet value and receives notes. It consumes
+              drawer cash and increases the agent’s own e-float.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Customer legal claim</dt>
+            <dd>
+              The amount still owed to customers. In the hypothesis it remains
+              tagged “still-customer,” even when a lock record exists.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Customer-supported hypothesis</dt>
+            <dd>
+              An unresolved alternative where opted-in balances are modelled as
+              support. It is not the default and does not establish lawfulness.
+            </dd>
+          </div>
+          <div data-category="risk money">
+            <dt>Default / principal shortfall</dt>
+            <dd>
+              The part of allocated principal not returned at 18:00. The model
+              explains it as loss, freezes the till, and removes it from
+              tomorrow’s file.
+            </dd>
+          </div>
+          <div data-category="model market">
+            <dt>Demand</dt>
+            <dd>
+              The seeded number and size of cash-in and cash-out requests. The
+              demand slider scales both sides while preserving comparison
+              shocks.
+            </dd>
+          </div>
+          <div data-category="market money">
+            <dt>Drawer cash</dt>
+            <dd>
+              Physical banknotes held by an agent. They are not the same thing
+              as wallet value or e-float.
+            </dd>
+          </div>
+          <div data-category="money market">
+            <dt>E-float</dt>
+            <dd>
+              Electronic value an agent uses to credit customer wallets during
+              cash-in. A cash-in-heavy till can have plenty of notes but too
+              little e-float.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Facility fee</dt>
+            <dd>
+              The one adjustable price paid on principal actually utilised. Idle
+              allocation is not charged.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>fee_share</dt>
+            <dd>
+              The model’s name for a customer portion of agent fees in the
+              unresolved hypothesis. It is deliberately not called interest.
+            </dd>
+          </div>
+          <div data-category="partners money">
+            <dt>Funding partner</dt>
+            <dd>
+              The regulated role that supplies or guarantees partner-backed
+              capacity. Turning it off makes partner-mode capacity zero.
+            </dd>
+          </div>
+          <div data-category="risk model">
+            <dt>Incident</dt>
+            <dd>
+              A timestamped explanation of a failure or constraint, including
+              consequence, safeguard, remaining exposure, and decision needed.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Idle principal</dt>
+            <dd>
+              Allocated facility e-float that has not been used by cash-ins. It
+              appears as a dull gold ring and earns no fee.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Legal claim</dt>
+            <dd>
+              Who is still entitled to the value. A legal claim is different
+              from the operational place where an animation is drawn.
+            </dd>
+          </div>
+          <div data-category="partners">
+            <dt>MMFL rails / pool</dt>
+            <dd>
+              The modelled operational role that authorises and routes
+              allocations. If rails are off, there is no capacity and no gold
+              allocation packet.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Monte Carlo</dt>
+            <dd>
+              Repeated random simulation. Night Float does not run a live Monte
+              Carlo during the pitch; it uses a fixed seeded tape so results do
+              not jump.
+            </dd>
+          </div>
+          <div data-category="model risk">
+            <dt>Opt-in</dt>
+            <dd>
+              The share of customers in the lock-eligible subset. It affects
+              only customer-supported hypothesis mode, never partner-backed
+              capacity.
+            </dd>
+          </div>
+          <div data-category="model money">
+            <dt>Packet</dt>
+            <dd>
+              A visible aggregate unit moving between model entities. Every
+              packet carries source, legal claim, state, amount, endpoints, and
+              timing.
+            </dd>
+          </div>
+          <div data-category="partners money">
+            <dt>Partner-backed facility</dt>
+            <dd>
+              The default model: regulated partner principal supports approved
+              agent e-float, without treating customer balances as the facility.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Principal</dt>
+            <dd>
+              The original facility amount that must be accounted for separately
+              from fees.
+            </dd>
+          </div>
+          <div data-category="market">
+            <dt>Refusal</dt>
+            <dd>
+              A customer request the agent cannot complete. Red means
+              insufficient e-float for cash-in; purple means insufficient notes
+              for cash-out.
+            </dd>
+          </div>
+          <div data-category="risk model">
+            <dt>Risk score</dt>
+            <dd>
+              A fixed 0–1 eligibility lamp. It is not artificial intelligence or
+              a learning model. If the service is off, a stricter rule is used.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Safeguarding</dt>
+            <dd>
+              Keeping customer claims matchedable to protected value. The model
+              checks this separately from facility principal so they cannot be
+              double-counted.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Seed 2026</dt>
+            <dd>
+              The fixed starting number for fictional randomness. The same
+              controls and seed produce the same agents, demand, and result
+              every time.
+            </dd>
+          </div>
+          <div data-category="money risk">
+            <dt>Settlement</dt>
+            <dd>
+              The 18:00 return of facility principal and fee. Returned,
+              defaulted, and frozen outcomes are recorded separately.
+            </dd>
+          </div>
+          <div data-category="model risk">
+            <dt>Stress scenario</dt>
+            <dd>
+              A preset with more default risk, no sweeper, a smaller cap, a
+              named risk signal, settlement loss, and next-day exclusion.
+            </dd>
+          </div>
+          <div data-category="partners market">
+            <dt>Super-agent / sweeper</dt>
+            <dd>
+              The route that turns real drawer notes above the reserve into
+              e-value for settlement between 16:00 and 18:00.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Utilised principal</dt>
+            <dd>
+              Facility e-float actually consumed after an agent’s own e-float
+              runs out. This—not total allocation—is the fee basis.
+            </dd>
+          </div>
+          <div data-category="partners risk">
+            <dt>Vault</dt>
+            <dd>
+              The safeguarded or funding balance picture. It intentionally stays
+              still when operational e-float is allocated, preventing a
+              misleading legal story.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Wind tunnel</dt>
+            <dd>
+              A safe model for changing assumptions and seeing consequences.
+              Like an aircraft wind tunnel, it tests ideas without pretending to
+              be production.
+            </dd>
+          </div>
+        </dl>
+        <div id="emptyTerms" class="empty" hidden>
+          No matching term. Try a shorter word or choose “All”.
+        </div>
+      </section>
+
+      <section class="section-block questions">
+        <div class="section-heading">
+          <p class="eyebrow">Common questions</p>
+          <h2>What should I conclude?</h2>
+        </div>
+        <details>
+          <summary>Is Night Float already connected to MTN MoMo?</summary>
+          <p>
+            No. The site is an offline fictional economy. Any real facility,
+            wallet movement, data use, or partner branding requires the
+            appropriate partner and regulatory process.
+          </p>
+        </details>
+        <details>
+          <summary>Does a better result prove the product will work?</summary>
+          <p>
+            No. It shows which assumptions would make the idea plausible and
+            which data must be validated. The model is designed to be
+            challenged.
+          </p>
+        </details>
+        <details>
+          <summary>Why can cash-out tills stay purple or red?</summary>
+          <p>
+            They need physical notes. Night Float supplies e-float for cash-in
+            demand. A different cash-distribution intervention is needed for
+            cash-out shortages.
+          </p>
+        </details>
+        <details>
+          <summary>Why is customer-supported mode labelled unresolved?</summary>
+          <p>
+            A customer claim cannot be treated as both immediately redeemable
+            and freely reused without an approved legal, ledger, liquidity, and
+            loss structure.
+          </p>
+        </details>
+        <details>
+          <summary>Where does the modelled profit come from?</summary>
+          <p>
+            Only from the facility fee on utilised principal, less unresolved
+            default loss. Idle money earns no fee and recipient splits do not
+            create extra money.
+          </p>
+        </details>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        Night Float · Proprietary and Confidential · © 2026 Maku Pauline Mazakpe
+      </p>
+      <div>
+        <a href="../">Control room</a><a href="./">Glossary</a
+        ><a href="../pitch/">Pitch deck</a
+        ><a href="../?assumptions=1">Model assumptions</a
+        ><a href="https://startuptribunal.com/maku">Contact Maku</a>
+      </div>
+    </footer>
+    <script type="module" src="./glossary.js"></script>
+  </body>
+</html>

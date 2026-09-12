@@ -1,0 +1,18 @@
+{
+  "ownership": "Proprietary and Confidential",
+  "files": {
+    "README.md": "3dc7b44412f8be44db7852807ad3f6dd2fb17c4e86be2825b387ca0a36684bb5",
+    "app.js": "1aa62836ad75b89abb6af74946b9844d486750a6bb062be1836ef27ca9a9f01d",
+    "favicon.svg": "116c5e46ca17e971b63468c47e0ede9af85dbdcd45b9085d4db8b154deac5f40",
+    "glossary/glossary.css": "d90e1639cccb04854e9e4c669af2c04dd27aa289ee72b4b31d9f328be05057da",
+    "glossary/glossary.js": "19b3965124700826c86db16521da932241d87a266d45435bcaa1fdf6f3fc8e55",
+    "glossary/index.html": "f80139157ed1fa8286f9ca08df324b445fa96c835a94cbd51b7d200ecfd3d529",
+    "index.html": "c22308cfa8b4ab0eb03b97756178083c06ab92a6c821a1a418eb386f70fee30a",
+    "pitch/index.html": "b49e2884c9aa481c6d75e95bc5e6699ed877324fe189957cb3624d5f1d8de9ea",
+    "pitch/pitch.css": "b6c7175c063b96f766f00e1b5f72823f4292ccb9ab2024d0b13049fd26bc1517",
+    "pitch/pitch.js": "499a2d19c6b3691717a43165110096287b0890ca45104841986000eac03a7088",
+    "sim.js": "a2fda57cc373326165e85ec4d3126cc90bbebd21cf83bfd02ed55d82b8dd435e",
+    "styles.css": "e50263ab30e49bced15e3bdde0498b7ca6f00be7cc6aec987646f07c1a9e2a33",
+    "visual.js": "8fee6aeb494073a167389563b47c1acd763303ba28fd312a1ae55b28ba349f36"
+  }
+}
