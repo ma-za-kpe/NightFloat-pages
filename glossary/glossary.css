@@ -1826,3 +1826,9 @@ footer :where(p, span, a) {
   font-size: 12px !important;
   line-height: 1.45;
 }
+
+/* Preserve the inherited display hierarchy inside the hero heading. */
+.hero h1 span {
+  font-size: inherit !important;
+  line-height: inherit;
+}

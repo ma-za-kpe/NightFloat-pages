@@ -1862,8 +1862,15 @@ select {
   margin: -13px;
   font-size: 12px;
 }
+
+/* Keep the 44px scenario explainer in layout flow so it cannot intercept
+ * the adjacent Pitch link. */
 .scenario-switch > .info-button {
-  right: -52px;
+  position: relative;
+  top: auto;
+  right: auto;
+  margin: 0 0 0 4px;
+  transform: none;
 }
 .control-result-strip {
   margin: 0 0 14px;
@@ -1920,9 +1927,11 @@ select {
   min-height: 44px;
 }
 @media (max-width: 780px) {
+  .scenario-switch {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) 44px;
+  }
   .scenario-switch > .info-button {
-    right: 0;
-    top: -43px;
+    margin-left: 0;
   }
   .control-result-strip {
     position: sticky;
