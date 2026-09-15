@@ -1,18 +1,19 @@
 {
   "ownership": "Proprietary and Confidential",
   "files": {
-    "README.md": "7a539663682bc5ef96b9021c4bbb036715bdb68a204b6f1bc9eb8af9997df172",
-    "app.js": "1aa62836ad75b89abb6af74946b9844d486750a6bb062be1836ef27ca9a9f01d",
+    "README.md": "e38575a99b9e4c4f15133d3a3d97cb9c34d9dd48e8c03f31ecd6c7bb93f5d583",
+    "app.js": "b9b56428c7a676ec10fc85866c47b714aa7385e8964ee845e7f889bac36d3929",
     "favicon.svg": "116c5e46ca17e971b63468c47e0ede9af85dbdcd45b9085d4db8b154deac5f40",
-    "glossary/glossary.css": "ee206dfb8cb2dfa4de9b424d02900b65986e3373e1580d018032d64f2a6e19d4",
-    "glossary/glossary.js": "19b3965124700826c86db16521da932241d87a266d45435bcaa1fdf6f3fc8e55",
-    "glossary/index.html": "121959958b55648e9af4bd1a2a912b1387265a4832cd926165cd9b4c41888920",
-    "index.html": "aec70d8d5e5f04c629290dedc23017c7a0d88143c128152ec573fb47cb46117d",
+    "glossary/glossary.css": "2d5c8b2494f543f2c046cbd6a4d09911a37dfc085e732c6391a3cd29f4c97107",
+    "glossary/glossary.js": "81190e5f29dbf4bb7f1e92f306db4be7d6d586f44c028d23d955f06a302da780",
+    "glossary/index.html": "6f91a0f83e36dc5b5bcfcde79304aa60f5953bfebe7c5206ebc5fb8496672683",
+    "index.html": "07a451f6542f845a99a77ee1e9096e755669191f99197550fbd8a7c652bb1387",
     "pitch/index.html": "9c7b37d495a5cbdea73d8e3a022d44aa5a1fe8e7a1af804c89ca7afbf1eb0bbb",
     "pitch/pitch.css": "b6c7175c063b96f766f00e1b5f72823f4292ccb9ab2024d0b13049fd26bc1517",
     "pitch/pitch.js": "499a2d19c6b3691717a43165110096287b0890ca45104841986000eac03a7088",
+    "projection.js": "9b5db6bafcb11de0150b8b17a9a76879b93c325c9cf3e7b37fd3e9c39d1e066c",
     "sim.js": "a2fda57cc373326165e85ec4d3126cc90bbebd21cf83bfd02ed55d82b8dd435e",
-    "styles.css": "e50263ab30e49bced15e3bdde0498b7ca6f00be7cc6aec987646f07c1a9e2a33",
+    "styles.css": "a0a3cdaa7e01007bc6f8eeff40a85fa3e770758214990dca9309b4277129a9bc",
     "visual.js": "8fee6aeb494073a167389563b47c1acd763303ba28fd312a1ae55b28ba349f36"
   }
 }

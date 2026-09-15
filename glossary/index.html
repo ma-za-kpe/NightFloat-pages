@@ -920,6 +920,159 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </section>
 
+      <section id="earnings-explainer" class="section-block earnings-explainer">
+        <div class="section-heading">
+          <p class="eyebrow">Follow the fee · default seed 2026</p>
+          <h2 id="earningsHeadline">GHS 349 is not our profit.</h2>
+          <p>
+            The source is always <strong>one simulated operating day</strong>.
+            Use the horizon below to repeat that day’s economics transparently.
+            Night Float receives only one part of the fee waterfall.
+          </p>
+        </div>
+        <div class="horizon-control">
+          <label>
+            <span>Projection horizon</span>
+            <select id="earningsHorizon">
+              <option value="day">1 day</option>
+              <option value="week">1 week · 7 days</option>
+              <option value="month">1 month · 30 days</option>
+              <option value="quarter">3 months · 90 days</option>
+              <option value="half-year">6 months · 180 days</option>
+              <option value="year">1 year · 365 days</option>
+            </select>
+          </label>
+          <details class="horizon-info">
+            <summary aria-label="Explain projection horizon">i</summary>
+            <p>
+              This repeats the selected model day. It does not predict growth,
+              weekends, changing demand, or which exact agent returns tomorrow.
+            </p>
+          </details>
+          <div>
+            <small>SELECTED SCOPE</small>
+            <strong id="projectionDays">1 modeled day</strong>
+          </div>
+        </div>
+        <div class="day-stamp">
+          <span id="earningsPeriod">ONE DAY</span>
+          <b>21:00 forecast → 06:00 allocation → 18:00 settlement</b>
+          <p>Partner-backed · 0.5% fee · default controls · fictional data</p>
+        </div>
+        <div
+          class="earnings-formula"
+          role="group"
+          aria-label="One-day system result calculation"
+        >
+          <article>
+            <small id="earningsUsedLabel">FACILITY USED · 1 DAY</small>
+            <strong id="earningsUtilised">Calculating…</strong>
+            <p>Not the book cap and not the amount merely allocated.</p>
+          </article>
+          <i aria-hidden="true">×</i>
+          <article>
+            <small>AGENT’S DAILY FEE</small>
+            <strong>0.5%</strong>
+            <p>Charged only on utilised principal.</p>
+          </article>
+          <i aria-hidden="true">=</i>
+          <article class="gold-result">
+            <small id="earningsGrossLabel">GROSS FACILITY FEES · 1 DAY</small>
+            <strong id="earningsGross">Calculating…</strong>
+            <p>The shared fee pot before default loss.</p>
+          </article>
+        </div>
+        <div class="earnings-split">
+          <article class="waterfall-card">
+            <div class="mini-heading">
+              <p class="eyebrow">Where the selected-period fee goes</p>
+              <h3 id="waterfallHeading">The 1 day fee waterfall</h3>
+            </div>
+            <div class="waterfall-row funder-row">
+              <span><b>38%</b> Funding partner</span
+              ><strong id="earningsFunder">—</strong>
+            </div>
+            <div class="waterfall-row mmfl-row">
+              <span><b>27%</b> MMFL</span><strong id="earningsMmfl">—</strong>
+            </div>
+            <div class="waterfall-row platform-row">
+              <span><b>22%</b> Night Float platform</span
+              ><strong id="earningsPlatform">—</strong>
+            </div>
+            <div class="waterfall-row operations-row">
+              <span><b>13%</b> Sweep / operations</span
+              ><strong id="earningsOperations">—</strong>
+            </div>
+            <p class="waterfall-note">
+              Customer share is GHS 0 in the partner-backed default. A customer
+              <code>fee_share</code> exists only in the unresolved hypothesis.
+            </p>
+          </article>
+          <article class="pesewa-card">
+            <p class="eyebrow">Unit economics · unchanged by horizon</p>
+            <h3>Kojo uses GHS 100.</h3>
+            <p>At 0.5%, his total fee is 50 pesewas:</p>
+            <ul>
+              <li><b>19p</b><span>funding partner</span></li>
+              <li><b>13.5p</b><span>MMFL</span></li>
+              <li class="platform-pesewa">
+                <b>11p</b><span>Night Float</span>
+              </li>
+              <li><b>6.5p</b><span>operations</span></li>
+            </ul>
+            <strong class="plain-conclusion"
+              >Night Float earns 11 pesewas—not the whole 50.</strong
+            >
+          </article>
+        </div>
+        <div class="result-definition">
+          <div>
+            <small>MODEL-WIDE RESULT</small>
+            <strong id="earningsSystem">—</strong>
+          </div>
+          <p>
+            <code>gross facility fees − unresolved principal loss</code>. On the
+            healthy default tape, loss is zero, so the result happens to equal
+            gross fees. It still is not platform profit.
+          </p>
+        </div>
+        <div class="stress-math">
+          <div class="stress-copy">
+            <p class="eyebrow">Why the loss rail matters</p>
+            <h3>One default can eat several fee days.</h3>
+            <p>
+              The Stress tape uses the same day but removes the effective dusk
+              recovery path and forces a named shortfall.
+            </p>
+            <p id="stressPeriod">
+              If that Stress day repeated for 1 day, unresolved losses would
+              accumulate like this:
+            </p>
+          </div>
+          <div class="stress-equation">
+            <span><small>Gross fees</small><b id="stressFees">—</b></span
+            ><i>−</i
+            ><span><small>Default loss</small><b id="stressLoss">—</b></span
+            ><i>=</i
+            ><span class="negative"
+              ><small>System result</small><b id="stressResult">—</b></span
+            >
+          </div>
+        </div>
+        <aside class="projection-warning" aria-label="Projection warning">
+          <span>TRANSPARENT PROJECTION · NOT A FORECAST</span>
+          <strong
+            >Every displayed period starts with the same one-day tape.</strong
+          >
+          <p id="projectionRule">
+            This view repeats the same selected one-day assumptions across 1
+            modeled day. It does not compound growth, learn, or carry frozen
+            agents into a new day. It is a transparent projection, not a
+            forecast.
+          </p>
+        </aside>
+      </section>
+
       <section id="dictionary" class="section-block dictionary">
         <div class="section-heading">
           <p class="eyebrow">Plain-language dictionary</p>
@@ -1337,6 +1490,86 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               customer money.
             </dd>
           </div>
+          <div data-category="money model">
+            <dt>Gross facility fees</dt>
+            <dd>
+              Utilised principal multiplied by the disclosed daily fee. It is
+              the complete fee pot before splitting it among recipients or
+              subtracting principal loss.
+            </dd>
+          </div>
+          <div data-category="money risk model">
+            <dt>Default loss</dt>
+            <dd>
+              Facility principal that has not been returned and is treated as
+              unresolved loss in the model. It is subtracted from gross fees
+              when calculating the system result.
+            </dd>
+          </div>
+          <div data-category="money model">
+            <dt>Night Float platform share</dt>
+            <dd>
+              The modelled 22% portion of gross facility fees assigned to the
+              Night Float platform. It is revenue before the platform pays its
+              own expenses—not profit.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Revenue</dt>
+            <dd>
+              Money assigned to a participant before that participant’s own
+              costs. Night Float’s fee share is modelled revenue; it does not
+              show what the company keeps.
+            </dd>
+          </div>
+          <div data-category="money">
+            <dt>Profit</dt>
+            <dd>
+              Revenue left after every real expense and loss. The v1 simulation
+              does not calculate Night Float company profit because it has no
+              salaries, legal bills, tax, insurance, hosting, or support budget.
+            </dd>
+          </div>
+          <div data-category="money risk model">
+            <dt>System result</dt>
+            <dd>
+              The entire model’s gross facility fees minus unresolved principal
+              loss for the selected horizon. It is not Night Float’s earnings
+              and it is not audited accounting profit.
+            </dd>
+          </div>
+          <div data-category="model money">
+            <dt>Projection horizon</dt>
+            <dd>
+              The reporting window selected in the dropdown: 1, 7, 30, 90, 180,
+              or 365 modeled days. It repeats today’s assumptions; it does not
+              claim to know what will actually happen next year.
+            </dd>
+          </div>
+          <div data-category="model">
+            <dt>Modeled day</dt>
+            <dd>
+              One complete 21:00-to-20:45 run of the fictional economy. Longer
+              horizons repeat its flow totals while leaving percentage rates
+              unchanged.
+            </dd>
+          </div>
+          <div data-category="market model">
+            <dt>Agent-day</dt>
+            <dd>
+              One agent participating for one modeled day. Four accepted agents
+              repeated over seven days equals 28 accepted agent-days—not 28
+              different people.
+            </dd>
+          </div>
+          <div data-category="risk model">
+            <dt>Freeze event</dt>
+            <dd>
+              One modeled failure that freezes a till for the next allocation
+              file. A projected count is repeated-day exposure, not a count of
+              unique agents and not a claim that tomorrow was simulated.
+            </dd>
+          </div>
         </dl>
         <div id="emptyTerms" class="empty" hidden>
           No matching term. Try a shorter word or choose “All”.
@@ -1345,7 +1578,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
 
       <section id="frequent-questions" class="section-block questions">
         <div class="section-heading">
-          <p class="eyebrow">Fifteen honest answers</p>
+          <p class="eyebrow">Seventeen honest answers</p>
           <h2>What people will ask next.</h2>
           <p>
             These answers separate what the simulation demonstrates, what the
@@ -1436,11 +1669,33 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           </p>
         </details>
         <details>
-          <summary>Where does the modelled profit come from?</summary>
+          <summary>Where does the modelled system result come from?</summary>
           <p>
             Only from the facility fee on utilised principal, less unresolved
             default loss. Idle money earns no fee and recipient splits do not
             create extra money.
+          </p>
+        </details>
+        <details>
+          <summary>
+            Is the displayed GHS 349 Night Float’s daily profit?
+          </summary>
+          <p>
+            No. It is approximately one simulated day’s model-wide gross fees
+            minus principal loss. Under the default waterfall, Night Float
+            receives about GHS 76.74 of that amount as platform revenue before
+            paying any of its own costs. The model does not calculate company
+            profit.
+          </p>
+        </details>
+        <details>
+          <summary>Does the one-year view predict an actual year?</summary>
+          <p>
+            No. It repeats the selected one-day tape 365 times so you can see
+            the arithmetic consequence of the current fee, demand, default,
+            corridor, cap, and partner settings. It does not invent growth,
+            weekends, new customers, changing rates, or tomorrow’s agent list.
+            Treat it as a transparent sensitivity projection, not a forecast.
           </p>
         </details>
         <details>

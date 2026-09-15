@@ -5,12 +5,79 @@
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
  */
 
+import { DEFAULTS, EVENT_TICKS, simulate } from "../sim.js";
+import { DEFAULT_HORIZON, getHorizon, projectFrames } from "../projection.js";
+
 const search = document.querySelector("#glossarySearch");
 const terms = [...document.querySelectorAll("#termList > div")];
 const buttons = [...document.querySelectorAll("[data-filter]")];
 const count = document.querySelector("#termCount");
 const empty = document.querySelector("#emptyTerms");
+const earningsHorizon = document.querySelector("#earningsHorizon");
 let activeCategory = "all";
+
+function money(value) {
+  const sign = value < 0 ? "−" : "";
+  return `${sign}GHS ${Math.abs(value).toLocaleString("en-GH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+}
+
+export function earningsSnapshot(horizonKey = DEFAULT_HORIZON) {
+  const activeTape = simulate(DEFAULTS);
+  const activeFrame = activeTape[EVENT_TICKS.close];
+  const baselineFrame = simulate({
+    ...DEFAULTS,
+    scenario: "off",
+  })[EVENT_TICKS.close];
+  const stressFrame = simulate({
+    ...DEFAULTS,
+    scenario: "stress",
+  })[EVENT_TICKS.close];
+  return {
+    active: projectFrames(activeFrame, baselineFrame, horizonKey),
+    stress: projectFrames(stressFrame, baselineFrame, horizonKey),
+  };
+}
+
+export function renderEarningsExample(horizonKey = earningsHorizon.value) {
+  const values = earningsSnapshot(horizonKey);
+  const horizon = getHorizon(horizonKey);
+  const output = {
+    earningsUtilised: values.active.utilisedPrincipal,
+    earningsGross: values.active.grossFees,
+    earningsSystem: values.active.systemResult,
+    earningsFunder: values.active.feeWaterfall.fundingPartner,
+    earningsMmfl: values.active.feeWaterfall.mmfl,
+    earningsPlatform: values.active.feeWaterfall.platform,
+    earningsOperations: values.active.feeWaterfall.operations,
+    stressFees: values.stress.grossFees,
+    stressLoss: values.stress.defaultLoss,
+    stressResult: values.stress.systemResult,
+  };
+  Object.entries(output).forEach(([id, value]) => {
+    const element = document.querySelector(`#${id}`);
+    if (element) element.textContent = money(value);
+  });
+  document.querySelector("#earningsHeadline").textContent =
+    `${money(values.active.grossFees)} is not our profit.`;
+  document.querySelector("#projectionDays").textContent =
+    `${horizon.days.toLocaleString("en-GH")} modeled ${horizon.days === 1 ? "day" : "days"}`;
+  document.querySelector("#earningsPeriod").textContent =
+    horizon.label.toUpperCase();
+  document.querySelector("#earningsUsedLabel").textContent =
+    `FACILITY USED · ${horizon.label.toUpperCase()}`;
+  document.querySelector("#earningsGrossLabel").textContent =
+    `GROSS FACILITY FEES · ${horizon.label.toUpperCase()}`;
+  document.querySelector("#waterfallHeading").textContent =
+    `The ${horizon.label} fee waterfall`;
+  document.querySelector("#stressPeriod").textContent =
+    `If the same Stress-day assumptions repeated for ${horizon.label}, unresolved losses would accumulate like this:`;
+  document.querySelector("#projectionRule").textContent =
+    `This view repeats the same selected one-day assumptions across ${horizon.days.toLocaleString("en-GH")} modeled ${horizon.days === 1 ? "day" : "days"}. It does not compound growth, learn, or carry frozen agents into a new day. It is a transparent projection, not a forecast.`;
+  return values;
+}
 
 function normalise(value) {
   return value.trim().toLocaleLowerCase("en");
@@ -41,6 +108,7 @@ buttons.forEach((button) =>
     filterTerms();
   }),
 );
+earningsHorizon.addEventListener("change", () => renderEarningsExample());
 
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== search) {
@@ -53,4 +121,5 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+renderEarningsExample();
 filterTerms();

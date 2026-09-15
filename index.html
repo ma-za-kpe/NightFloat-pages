@@ -506,6 +506,38 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </aside>
 
         <section class="evidence-panel" aria-label="Simulation evidence">
+          <div class="projection-toolbar">
+            <label>
+              <span
+                >Projection horizon
+                <button
+                  type="button"
+                  class="info-button"
+                  data-info="Repeats the selected one-day tape across 1, 7, 30, 90, 180, or 365 modeled days. Flows and event counts accumulate; utilisation and settlement remain rates; the live map and ledger remain one representative day. This is not a forecast."
+                  aria-label="Explain projection horizon"
+                >
+                  i
+                </button></span
+              >
+              <select id="projectionHorizon">
+                <option value="day">1 day</option>
+                <option value="week">1 week · 7 days</option>
+                <option value="month">1 month · 30 days</option>
+                <option value="quarter">3 months · 90 days</option>
+                <option value="half-year">6 months · 180 days</option>
+                <option value="year">1 year · 365 days</option>
+              </select>
+            </label>
+            <div class="projection-scope">
+              <small>REPORTING SCOPE</small>
+              <strong id="projectionScope">1 modeled day</strong>
+              <span id="projectionAllocated">GHS 0 allocation volume</span>
+            </div>
+            <p id="projectionDisclaimer">
+              Same selected day repeated · live market and books stay daily ·
+              model projection, not a forecast
+            </p>
+          </div>
           <div class="metrics-grid">
             <div class="metric-card primary">
               <div class="metric-label">
@@ -581,7 +613,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               <div>
                 <p class="eyebrow">Same economy, same seed</p>
                 <h3>
-                  Cash-in refusals over the day
+                  Cash-in refusals · representative day
                   <button
                     class="info-button"
                     data-info="Both lines use seed 2026, identical agents, and identical demand. Only the intervention differs. Press B in presenter mode to emphasise baseline."

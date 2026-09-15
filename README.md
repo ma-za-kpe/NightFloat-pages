@@ -44,8 +44,8 @@ The interface is responsive down to a 320 px viewport. On phones, the market and
 
 ## Pages
 
-- `/` — the source-of-truth control room and five-act wind tunnel
-- `/glossary/` — searchable plain-language guide to the two-stock kiosk problem, operating day, partner plumbing, eleven risks, safe language, every visual sign and term, and fifteen common questions
+- `/` — the source-of-truth control room, five-act wind tunnel, and six-horizon projection view
+- `/glossary/` — searchable plain-language guide to the two-stock kiosk problem, operating day, partner plumbing, six-horizon earnings waterfall, eleven risks, safe language, every visual sign and term, and seventeen common questions
 - `/pitch/` — eight-part MMFL partnership argument with the real wind tunnel embedded on slide four
 
 All three pages are offline-capable and tested at 1366 × 768, a Pixel-class mobile viewport, and the exact 320 px minimum.
@@ -57,6 +57,7 @@ All three pages are offline-capable and tested at 1366 × 768, a Pixel-class mob
 - Customer opt-in, agent default risk, one utilisation-based facility fee, demand, agent mix, book cap, and score threshold
 - MMFL, funding, scoring, and dusk-sweeper outage toggles
 - Time scrubbing, playback speeds, and a guided run
+- Projection horizon: 1 day, 1 week, 1 month, 3 months, 6 months, or 1 year
 
 All model data is generated from the fixed seed `2026`, making scenario comparisons repeatable.
 
@@ -70,6 +71,7 @@ Append query parameters to open a presentation at a specific state:
 ?scenario=stress&time=84
 ?scenario=on&time=36&bank=off
 ?scenario=on&time=84&defaultRate=8&sweep=off
+?scenario=on&time=95&horizon=year
 ```
 
 Control names in the interface can also be supplied as query parameters, making important configurations reproducible.
@@ -83,7 +85,7 @@ npm test
 npm run test:e2e
 ```
 
-The unit and integration suite enforces at least 95% statements, branches, functions, and lines in aggregate across all first-party JavaScript, including the simulation, glossary, and pitch. End-to-end tests cover the real browser experience at 1366 × 768, common mobile size, and the 320 px minimum.
+The unit and integration suite enforces at least 95% statements, branches, functions, and lines in aggregate across all first-party JavaScript, including the simulation, glossary, and pitch. The shared projection module has an additional 100% threshold in all four dimensions. End-to-end tests cover the real browser experience at 1366 × 768, common mobile size, and the 320 px minimum.
 
 Run `npm run test:all` for syntax, aggregate coverage, integration, and browser checks. Run `npm run record:demo` to create the WebM venue fallback under the ignored `artifacts/` directory; CI also uploads it as `night-float-backup-demo`.
 

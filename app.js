@@ -12,13 +12,13 @@ import {
   SEED,
   TICKS,
   agentHealth,
-  avoidedCashIn,
   clamp,
   comparableBaseline,
   phaseForTick,
   simulate,
   timeForTick,
 } from "./sim.js";
+import { DEFAULT_HORIZON, HORIZONS, projectFrames } from "./projection.js";
 import { pathGeometry } from "./visual.js";
 
 const COLORS = Object.freeze({
@@ -44,6 +44,7 @@ const state = {
   tour: null,
   reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   staticCanvasSignature: "",
+  horizon: DEFAULT_HORIZON,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -86,6 +87,10 @@ const elements = {
   ledgerCash: $("ledgerCash"),
   feeSplitSummary: $("feeSplitSummary"),
   infoPopover: $("infoPopover"),
+  projectionHorizon: $("projectionHorizon"),
+  projectionScope: $("projectionScope"),
+  projectionAllocated: $("projectionAllocated"),
+  projectionDisclaimer: $("projectionDisclaimer"),
 };
 
 const controlMap = {
@@ -109,6 +114,9 @@ const controlMap = {
 
 function money(value, compact = false) {
   const number = Number(value) || 0;
+  if (compact && Math.abs(number) >= 1000000) {
+    return `GHS ${(number / 1000000).toFixed(Math.abs(number) >= 10000000 ? 0 : 1)}m`;
+  }
   if (compact && Math.abs(number) >= 1000) {
     return `GHS ${(number / 1000).toFixed(Math.abs(number) >= 100000 ? 0 : 1)}k`;
   }
@@ -514,41 +522,48 @@ function renderBooks(frame) {
 function renderMetrics() {
   const frame = state.activeTape[state.tick];
   const baseline = state.baseTape[state.tick];
-  const metrics = frame.metrics;
-  const avoided = avoidedCashIn(frame, baseline);
+  const projection = projectFrames(frame, baseline, state.horizon);
+  const avoided = projection.avoidedCashIn;
+  const periodSuffix =
+    projection.days === 1
+      ? "this modeled day"
+      : `across ${projection.days.toLocaleString("en-GH")} modeled days`;
   elements.refusedMetric.textContent =
-    metrics.totals.refusedCashIn.toLocaleString("en-GH");
+    projection.refusedCashIn.toLocaleString("en-GH");
   elements.refusedDelta.textContent =
     state.params.scenario === "off"
-      ? `${money(metrics.totals.emergencyA2A, true)} bounded emergency A2A`
-      : `${Math.max(0, avoided).toLocaleString("en-GH")} avoided vs identical baseline`;
+      ? `${money(projection.emergencyA2A, true)} bounded emergency A2A · ${periodSuffix}`
+      : `${Math.max(0, avoided).toLocaleString("en-GH")} avoided vs identical baseline · ${periodSuffix}`;
   elements.refusedDelta.className =
     state.params.scenario !== "off" && avoided > 0 ? "positive" : "";
-  elements.utilisedMetric.textContent = `${Math.round(metrics.utilisationRate)}%`;
-  elements.allocatedMetric.textContent = `${money(metrics.allocated, true)} allocated · ${money(metrics.totals.idleAllocated, true)} idle · ${metrics.priceRejected} declined`;
+  elements.utilisedMetric.textContent = `${Math.round(projection.utilisationRate)}%`;
+  elements.allocatedMetric.textContent = `${money(projection.allocatedVolume, true)} allocation volume · ${money(projection.idleAllocated, true)} idle volume · ${projection.priceRejectedAgentDays.toLocaleString("en-GH")} declined agent-days`;
   elements.settledMetric.textContent =
-    metrics.settlementRate === null
+    projection.settlementRate === null
       ? "—"
-      : `${metrics.settlementRate.toFixed(1)}%`;
+      : `${projection.settlementRate.toFixed(1)}%`;
   elements.defaultMetric.textContent =
-    metrics.settlementRate === null
+    projection.settlementRate === null
       ? "Settlement pending"
-      : `${metrics.frozen} frozen · ${money(metrics.defaultedPrincipal, true)} principal loss`;
+      : `${projection.frozenEvents.toLocaleString("en-GH")} freeze events · ${money(projection.defaultedPrincipal, true)} unresolved principal`;
   elements.defaultMetric.className =
-    metrics.defaultedPrincipal > 0
+    projection.defaultedPrincipal > 0
       ? "negative"
-      : metrics.settlementRate !== null
+      : projection.settlementRate !== null
         ? "positive"
         : "";
-  elements.profitMetric.textContent = money(metrics.systemResult, true);
+  elements.profitMetric.textContent = money(projection.systemResult, true);
   elements.profitMetric.style.color =
-    metrics.systemResult < 0 ? COLORS.red : "";
-  const split = metrics.feeWaterfall;
+    projection.systemResult < 0 ? COLORS.red : "";
+  const split = projection.feeWaterfall;
   const customerShare =
     state.params.fundingModel === "customer"
       ? ` · User fee_share ${money(split.customerFeeShare, true)}`
       : "";
-  elements.feeMetric.textContent = `Fees ${money(metrics.grossFees, true)} · Funder ${money(split.fundingPartner, true)} · MMFL ${money(split.mmfl, true)} · Platform ${money(split.platform, true)}${customerShare}`;
+  elements.feeMetric.textContent = `Fees ${money(projection.grossFees, true)} · Funder ${money(split.fundingPartner, true)} · MMFL ${money(split.mmfl, true)} · Platform ${money(split.platform, true)}${customerShare}`;
+  elements.projectionScope.textContent = `${projection.days.toLocaleString("en-GH")} modeled ${projection.days === 1 ? "day" : "days"}`;
+  elements.projectionAllocated.textContent = `${money(projection.allocatedVolume, true)} allocation volume`;
+  elements.projectionDisclaimer.textContent = `${projection.label} · same selected day repeated · live market and books stay daily · model projection, not a forecast`;
   renderBooks(frame);
 }
 
@@ -612,6 +627,10 @@ function renderAssumptions() {
   const rows = [
     ["Seed", SEED],
     ["Clock", "96 × 15 minutes"],
+    [
+      "Projection horizon",
+      `${HORIZONS.find((horizon) => horizon.key === state.horizon).label} · repeated-day arithmetic`,
+    ],
     ["Presenter start", "05:45"],
     [
       "Funding",
@@ -691,6 +710,7 @@ function syncControls() {
     $(config.output).textContent = config.format(state.params[key]);
   });
   elements.fundingModel.value = state.params.fundingModel;
+  elements.projectionHorizon.value = state.horizon;
   elements.legalWarning.hidden = state.params.fundingModel !== "customer";
   const customerControl = document.querySelector(".customer-only");
   customerControl.classList.toggle(
@@ -847,6 +867,10 @@ function setupControls() {
     syncControls();
     recompute();
   });
+  elements.projectionHorizon.addEventListener("change", (event) => {
+    state.horizon = event.target.value;
+    renderAll();
+  });
   const toggles = {
     mmflToggle: "mmfl",
     bankToggle: "bank",
@@ -894,6 +918,7 @@ function setupControls() {
   });
   elements.resetButton.addEventListener("click", () => {
     state.params = { ...DEFAULTS };
+    state.horizon = DEFAULT_HORIZON;
     state.tick = PRESENTER_START;
     state.tour = null;
     state.playing = false;
@@ -930,6 +955,10 @@ function loadShareableView() {
   const fundingModel = query.get("funding");
   if (["partner", "customer"].includes(fundingModel)) {
     state.params.fundingModel = fundingModel;
+  }
+  const horizon = query.get("horizon");
+  if (HORIZONS.some((candidate) => candidate.key === horizon)) {
+    state.horizon = horizon;
   }
   Object.keys(controlMap).forEach((key) => {
     if (query.has(key) && Number.isFinite(Number(query.get(key)))) {
