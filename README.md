@@ -14,6 +14,7 @@ An offline-capable, fictional economic simulation for explaining Night Float. It
 - [Night Float control room](https://ma-za-kpe.github.io/NightFloat-pages/)
 - [Glossary and layperson guide](https://ma-za-kpe.github.io/NightFloat-pages/glossary/)
 - [MoMo FinTech Lab pitch](https://ma-za-kpe.github.io/NightFloat-pages/pitch/)
+- [Investor and diligence deck](https://ma-za-kpe.github.io/NightFloat-pages/investor/)
 - [Public deployment artifacts](https://github.com/ma-za-kpe/NightFloat-pages)
 
 Owner and contact: [Maku Pauline Mazakpe](https://startuptribunal.com/maku) · [LinkedIn](https://www.linkedin.com/in/maku-mazakpe/) · [GitHub](https://github.com/ma-za-kpe) · [X](https://x.com/makumazakpe) · [StartupTribunal X](https://x.com/startuptribunal)
@@ -45,8 +46,9 @@ The interface is responsive down to a 320 px viewport. On phones, the market and
 ## Pages
 
 - `/` — the source-of-truth control room, five-act wind tunnel, and six-horizon projection view
-- `/glossary/` — searchable plain-language guide to the two-stock kiosk problem, operating day, partner plumbing, six-horizon earnings waterfall, eleven risks, safe language, every visual sign and term, and seventeen common questions
-- `/pitch/` — eight-part MMFL partnership argument with the real wind tunnel embedded on slide four
+- `/glossary/` — searchable plain-language guide to the two-stock kiosk problem, operating day, partner plumbing, primary sources, six-horizon earnings waterfall, eleven risks, safe language, every visual sign and term, and twenty-two common questions
+- `/pitch/` — nine-part MMFL partnership argument with the real wind tunnel embedded on slide five
+- `/investor/` — fourteen-part send-ahead deck covering evidence status, initial market, economics, alternatives, team, ask, and vision
 
 All three pages are offline-capable and tested at 1366 × 768, a Pixel-class mobile viewport, and the exact 320 px minimum.
 

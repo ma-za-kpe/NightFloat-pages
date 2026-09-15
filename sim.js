@@ -158,7 +158,7 @@ export const MODEL_LIMITS = Object.freeze({
   safeguardedCustomerBalance: 270000,
 });
 
-const FEE_WATERFALLS = Object.freeze({
+export const FEE_WATERFALLS = Object.freeze({
   partner: Object.freeze({
     fundingPartner: 0.38,
     mmfl: 0.27,
@@ -174,6 +174,12 @@ const FEE_WATERFALLS = Object.freeze({
     customerFeeShare: 0.32,
   }),
 });
+
+export function feeWaterfallRates(fundingModel = DEFAULTS.fundingModel) {
+  const rates = FEE_WATERFALLS[fundingModel];
+  if (!rates) throw new RangeError(`Unknown funding model: ${fundingModel}`);
+  return rates;
+}
 
 export function mulberry32(seed) {
   return function random() {

@@ -9,10 +9,12 @@ import {
   DEFAULTS,
   EVENT_TICKS,
   comparableBaseline,
+  feeWaterfallRates,
   scenarioConfig,
   simulate,
-} from "../sim.js?v=d711319f06b7";
+} from "../sim.js?v=018b17bc762e";
 import { DEFAULT_HORIZON, getHorizon, projectFrames } from "../projection.js?v=e861609b8b69";
+import { SOURCE_REGISTER, renderPartnershipAsks } from "../content.js?v=92df3b3a8420";
 
 const search = document.querySelector("#glossarySearch");
 const terms = [...document.querySelectorAll("#termList > div")];
@@ -22,6 +24,83 @@ const empty = document.querySelector("#emptyTerms");
 const earningsHorizon = document.querySelector("#earningsHorizon");
 let activeCategory = "all";
 const mobileQuery = window.matchMedia?.("(max-width: 620px)");
+
+function setText(id, value) {
+  const element = document.querySelector(`#${id}`);
+  if (element) element.textContent = value;
+}
+
+function percent(value) {
+  return `${Number((value * 100).toFixed(2))}%`;
+}
+
+function pesewas(value) {
+  return `${Number(value.toFixed(2))}p`;
+}
+
+export function termId(value) {
+  return `term-${value
+    .normalize("NFKD")
+    .toLocaleLowerCase("en")
+    .replace(/[^a-z0-9]+/gu, "-")
+    .replace(/^-|-$/gu, "")}`;
+}
+
+function setupTermAnchors() {
+  terms.forEach((term) => {
+    const definition = term.querySelector("dt");
+    if (definition) term.id = termId(definition.textContent);
+  });
+}
+
+export function renderSources() {
+  const list = document.querySelector("#sourceList");
+  if (!list) return 0;
+  list.replaceChildren(
+    ...SOURCE_REGISTER.map((source) => {
+      const article = document.createElement("article");
+      article.id = `source-${source.id}`;
+      const meta = document.createElement("span");
+      meta.textContent = `${source.issuer} · ${source.date}`;
+      const link = document.createElement("a");
+      link.href = source.url;
+      link.textContent = source.title;
+      const scope = document.createElement("p");
+      scope.textContent = `${source.scope} Last verified ${source.verified}.`;
+      article.append(meta, link, scope);
+      return article;
+    }),
+  );
+  return SOURCE_REGISTER.length;
+}
+
+export function renderFinancialContract() {
+  const rates = feeWaterfallRates(DEFAULTS.fundingModel);
+  const fee = `${DEFAULTS.facilityFee}%`;
+  const feePesewas = DEFAULTS.facilityFee * 100;
+  setText("defaultFeeStamp", fee);
+  setText("defaultFeeRate", fee);
+  setText("shareFunderRate", percent(rates.fundingPartner));
+  setText("shareMmflRate", percent(rates.mmfl));
+  setText("sharePlatformRate", percent(rates.platform));
+  setText("shareOperationsRate", percent(rates.operations));
+  setText("unitFunder", pesewas(feePesewas * rates.fundingPartner));
+  setText("unitMmfl", pesewas(feePesewas * rates.mmfl));
+  setText("unitPlatform", pesewas(feePesewas * rates.platform));
+  setText("unitOperations", pesewas(feePesewas * rates.operations));
+  setText(
+    "unitPlatformWords",
+    `${Number((feePesewas * rates.platform).toFixed(2))} pesewas`,
+  );
+  document
+    .querySelectorAll("[data-default-fee]")
+    .forEach((node) => (node.textContent = fee));
+  document.querySelectorAll("[data-fee-share]").forEach((node) => {
+    const rate = rates[node.dataset.feeShare];
+    if (typeof rate === "number") node.textContent = percent(rate);
+  });
+  return rates;
+}
 
 function money(value) {
   const sign = value < 0 ? "−" : "";
@@ -99,10 +178,7 @@ export function filterTerms(query = search.value, category = activeCategory) {
   count.textContent = `${visible} of ${terms.length} terms shown`;
   empty.hidden = visible !== 0;
   if (needle) {
-    document.querySelector("#dictionary")?.classList.remove("is-collapsed");
-    document
-      .querySelector("#dictionary .section-toggle")
-      ?.setAttribute("aria-expanded", "true");
+    openSection(document.querySelector("#dictionary"));
   }
   return visible;
 }
@@ -113,10 +189,46 @@ function setSectionCollapsed(section, button, collapsed) {
   button.textContent = collapsed ? "Show section" : "Hide section";
 }
 
+export function openSection(section) {
+  if (!section) return false;
+  const button = section.querySelector(
+    ":scope > .section-heading .section-toggle",
+  );
+  if (button) setSectionCollapsed(section, button, false);
+  return Boolean(button);
+}
+
+export function openHashTarget({ scroll = false } = {}) {
+  let id;
+  try {
+    id = decodeURIComponent(window.location.hash.slice(1));
+  } catch {
+    return false;
+  }
+  if (!id) return false;
+  const target = document.getElementById(id);
+  if (!target) return false;
+  if (target.matches("#termList > div")) {
+    search.value = "";
+    activeCategory = "all";
+    buttons.forEach((button) => {
+      const active = button.dataset.filter === "all";
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", String(active));
+    });
+    filterTerms("", "all");
+  }
+  openSection(target.closest(".section-block"));
+  if (scroll) {
+    target.scrollIntoView({ block: "start" });
+    window.requestAnimationFrame(() =>
+      target.scrollIntoView({ block: "start" }),
+    );
+  }
+  return true;
+}
+
 function setupProgressiveSections() {
-  const hashTarget = window.location.hash
-    ? document.querySelector(window.location.hash)
-    : null;
   document.querySelectorAll(".section-block").forEach((section, index) => {
     const heading = section.querySelector(":scope > .section-heading");
     if (!heading) return;
@@ -126,8 +238,7 @@ function setupProgressiveSections() {
     button.setAttribute("aria-expanded", "true");
     button.textContent = "Hide section";
     heading.append(button);
-    const containsTarget = hashTarget && section.contains(hashTarget);
-    if (mobileQuery?.matches && index > 0 && !containsTarget) {
+    if (mobileQuery?.matches && index > 0) {
       setSectionCollapsed(section, button, true);
     }
     button.addEventListener("click", () => {
@@ -138,6 +249,7 @@ function setupProgressiveSections() {
       );
     });
   });
+  openHashTarget({ scroll: true });
 }
 
 search.addEventListener("input", () => filterTerms());
@@ -158,7 +270,9 @@ earningsHorizon.addEventListener("change", () => renderEarningsExample());
 window.addEventListener("keydown", (event) => {
   if (event.key === "/" && document.activeElement !== search) {
     event.preventDefault();
+    openSection(document.querySelector("#dictionary"));
     search.focus();
+    window.requestAnimationFrame(() => search.focus());
   } else if (event.key === "Escape" && document.activeElement === search) {
     search.value = "";
     filterTerms();
@@ -166,7 +280,19 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+window.addEventListener("hashchange", () => {
+  window.setTimeout(() => openHashTarget({ scroll: true }), 0);
+});
+document.addEventListener("click", (event) => {
+  const link = event.target.closest?.("a[href^='#']");
+  if (link) window.setTimeout(() => openHashTarget({ scroll: true }), 0);
+});
+
+setupTermAnchors();
 setupProgressiveSections();
+renderPartnershipAsks(document.querySelector("#glossaryAskList"));
+renderSources();
+renderFinancialContract();
 buttons.forEach((button) =>
   button.setAttribute(
     "aria-pressed",

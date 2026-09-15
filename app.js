@@ -14,13 +14,14 @@ import {
   agentHealth,
   clamp,
   comparableBaseline,
+  feeWaterfallRates,
   normaliseConfig,
   normaliseTick,
   phaseForTick,
   scenarioConfig,
   simulate,
   timeForTick,
-} from "./sim.js?v=d711319f06b7";
+} from "./sim.js?v=018b17bc762e";
 import { DEFAULT_HORIZON, HORIZONS, projectFrames } from "./projection.js?v=e861609b8b69";
 import { pathGeometry } from "./visual.js?v=86a9d22152d0";
 
@@ -743,9 +744,20 @@ function recompute() {
 }
 
 function feeSplitCopy() {
-  return state.params.fundingModel === "customer"
-    ? "Users fee_share 32% · MMFL 26% · Platform 22% · Operations 20%"
-    : "Funder 38% · MMFL 27% · Platform 22% · Operations 13%";
+  const rates = feeWaterfallRates(state.params.fundingModel);
+  const parts = [];
+  if (rates.fundingPartner) {
+    parts.push(`Funder ${rates.fundingPartner * 100}%`);
+  }
+  if (rates.customerFeeShare) {
+    parts.push(`Users fee_share ${rates.customerFeeShare * 100}%`);
+  }
+  parts.push(
+    `MMFL ${rates.mmfl * 100}%`,
+    `Platform ${rates.platform * 100}%`,
+    `Operations ${rates.operations * 100}%`,
+  );
+  return parts.join(" · ");
 }
 
 function syncMotionMode() {
@@ -1006,7 +1018,10 @@ function loadShareableView() {
   }
   if (query.get("motion") === "reduce") state.reducedMotion = true;
   if (query.get("deck") === "1") document.body.classList.add("deck-mode");
-  if (query.get("embed") === "1") document.body.classList.add("embed-mode");
+  if (query.get("embed") === "1") {
+    document.documentElement.classList.add("embed-mode");
+    document.body.classList.add("embed-mode");
+  }
   state.params = normaliseConfig(state.params, { mode: "clamp" });
   return query;
 }

@@ -12,10 +12,12 @@ import {
   assertBooks,
   avoidedCashIn,
   comparableBaseline,
+  feeWaterfallRates,
   idleAllocated,
   scenarioConfig,
   simulate,
-} from "../sim.js?v=d711319f06b7";
+} from "../sim.js?v=018b17bc762e";
+import { renderPartnershipAsks } from "../content.js?v=92df3b3a8420";
 
 const slides = [...document.querySelectorAll(".slide")];
 const previous = document.querySelector("#previousSlide");
@@ -31,6 +33,21 @@ let current = Math.max(
   Math.min(slides.length - 1, (Number(query.get("slide")) || 1) - 1),
 );
 let windTunnelRun = 0;
+
+export function renderContractLabels(root = document) {
+  const rates = feeWaterfallRates(DEFAULTS.fundingModel);
+  root
+    .querySelectorAll("[data-default-fee]")
+    .forEach((node) => (node.textContent = `${DEFAULTS.facilityFee}%`));
+  root.querySelectorAll("[data-fee-share]").forEach((node) => {
+    const rate = rates[node.dataset.feeShare];
+    if (typeof rate === "number") {
+      node.textContent = `${rate * 100}%`;
+      node.closest("article")?.style.setProperty("--share", `${rate * 100}%`);
+    }
+  });
+  return rates;
+}
 
 export function formatPitchMoney(value) {
   return `GHS ${Math.round(value).toLocaleString("en-GH")}`;
@@ -87,6 +104,15 @@ export function renderEvidence(overrides = {}) {
       "#pitchAvoided",
       Math.max(0, avoidedCashIn(active, baseline)).toLocaleString("en-GH"),
     );
+    const avoided = Math.max(0, avoidedCashIn(active, baseline));
+    const baselineRefusals = baseline.metrics.refusedCashIn;
+    const avoidedRate = baselineRefusals
+      ? (avoided / baselineRefusals) * 100
+      : 0;
+    setText(
+      "#pitchAvoidedContext",
+      `${avoided.toLocaleString("en-GH")} of ${baselineRefusals.toLocaleString("en-GH")} Baseline · ${avoidedRate.toFixed(1)}% · same seed · cash-in only`,
+    );
     setText(
       "#pitchAllocated",
       `${formatPitchMoney(active.metrics.allocated)} / ${formatPitchMoney(active.metrics.bookCap)} cap`,
@@ -103,7 +129,7 @@ export function renderEvidence(overrides = {}) {
     setText("#pitchFrozen", `${stress.metrics.frozen} frozen`);
     setText(
       "#pitchLoss",
-      `${formatPitchMoney(stress.metrics.defaultedPrincipal)} unresolved · agent liability; ultimate loss owner TBD`,
+      `${formatPitchMoney(stress.metrics.defaultedPrincipal)} unresolved`,
     );
     if (booksTarget) {
       booksTarget.textContent = "CODED LEDGERS RECONCILE";
@@ -164,7 +190,7 @@ export function showSlide(requested, announce = true) {
 }
 
 export function runWindTunnel() {
-  showSlide(3);
+  showSlide(4);
   const frame = document.querySelector("#pitchWindTunnel");
   if (!frame) return false;
   windTunnelRun += 1;
@@ -213,6 +239,8 @@ window.addEventListener("keydown", (event) => {
   }
 });
 
+renderPartnershipAsks(document.querySelector("#pitchAskList"), { pitch: true });
+renderContractLabels();
 renderEvidence();
 showSlide(current, false);
 window.requestAnimationFrame(() =>

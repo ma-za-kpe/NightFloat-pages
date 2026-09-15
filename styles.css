@@ -1753,6 +1753,7 @@ dialog::backdrop {
 }
 
 .embed-mode {
+  min-width: 0;
   overflow: hidden;
 }
 .embed-mode .topbar,

@@ -21,9 +21,10 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
     />
     <title>Night Float — Glossary &amp; Model Guide</title>
     <link rel="icon" href="../favicon.svg?v=8c5f105a652a" type="image/svg+xml" />
-    <link rel="stylesheet" href="./glossary.css?v=8d286727e017" />
+    <link rel="stylesheet" href="./glossary.css?v=f689c5c3224f" />
   </head>
   <body>
+    <a class="skip-link" href="#main-content">Skip to glossary content</a>
     <header class="guide-header">
       <a class="brand" href="../"
         ><span class="brand-bars" aria-hidden="true"><i></i><i></i><i></i></span
@@ -32,12 +33,13 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         ></a
       >
       <nav aria-label="Main navigation">
-        <a href="../">Control room</a><a href="../pitch/">Pitch deck</a
+        <a href="../">Control room</a><a href="../pitch/">Partner pitch</a
+        ><a href="../investor/">Investor deck</a><a href="#dictionary">Search</a
         ><a class="active" href="./" aria-current="page">Glossary</a>
       </nav>
     </header>
 
-    <main>
+    <main id="main-content">
       <section class="hero">
         <div>
           <p class="eyebrow">Start here · no finance background needed</p>
@@ -53,7 +55,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             <a class="primary" href="#quick-start">How to use it</a
             ><a href="#shop-problem">Understand the idea</a
             ><a href="#system-map">See who does what</a
-            ><a href="#dictionary">Browse all terms</a>
+            ><a href="#dictionary">Browse all terms</a
+            ><a href="#sources">Check sources</a>
           </div>
         </div>
         <aside class="truth-card" aria-label="Night Float in one sentence">
@@ -620,49 +623,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             turn it into a real pilot.
           </p>
         </div>
-        <ol class="ask-grid">
-          <li>
-            <span>01</span><b>Sandbox path</b>
-            <p>
-              Will MMFL sponsor a BoG/FIO pre-consult and file the appropriate
-              letter?
-            </p>
-          </li>
-          <li>
-            <span>02</span><b>Minimum data</b>
-            <p>
-              Can the pilot receive approved, read-only hourly cash-in/out data
-              for one corridor and 50 agents?
-            </p>
-          </li>
-          <li>
-            <span>03</span><b>Exact rail</b>
-            <p>
-              Which MMFL-controlled pool or liquidity-tag mechanism may allocate
-              and recall e-float?
-            </p>
-          </li>
-          <li>
-            <span>04</span><b>Named owners</b>
-            <p>
-              Who owns product/legal and who owns the agent network inside MMFL?
-            </p>
-          </li>
-          <li>
-            <span>05</span><b>Dusk + risk partners</b>
-            <p>
-              Who can validate scoring, facility capacity, and the physical-cash
-              reverse rail?
-            </p>
-          </li>
-          <li>
-            <span>06</span><b>Tax and loss</b>
-            <p>
-              What is the written tax treatment, and who contractually owns
-              principal shortfall?
-            </p>
-          </li>
-        </ol>
+        <ol id="glossaryAskList" class="ask-grid"></ol>
         <div class="no-go">
           <span>NO-GO RULE</span>
           <strong
@@ -673,7 +634,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </section>
 
-      <section class="section-block decode">
+      <section id="visual-language" class="section-block decode">
         <div class="section-heading">
           <p class="eyebrow">Visual language</p>
           <h2>What every colour and symbol means</h2>
@@ -806,7 +767,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </section>
 
-      <section class="section-block flows">
+      <section id="flow-directions" class="section-block flows">
         <div class="section-heading">
           <p class="eyebrow">Direction matters</p>
           <h2>How to read every flow</h2>
@@ -880,7 +841,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </section>
 
-      <section class="section-block dashboard-guide">
+      <section id="headline-metrics" class="section-block dashboard-guide">
         <div class="section-heading">
           <p class="eyebrow">Reading the evidence</p>
           <h2>The four headline numbers</h2>
@@ -960,7 +921,10 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         <div class="day-stamp">
           <span id="earningsPeriod">ONE DAY</span>
           <b>21:00 forecast → 06:00 allocation → 18:00 settlement</b>
-          <p>Partner-backed · 0.5% fee · default controls · fictional data</p>
+          <p>
+            Partner-backed · <span id="defaultFeeStamp">—</span> fee · default
+            controls · fictional data
+          </p>
         </div>
         <div
           class="earnings-formula"
@@ -975,7 +939,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           <i aria-hidden="true">×</i>
           <article>
             <small>AGENT’S DAILY FEE</small>
-            <strong>0.5%</strong>
+            <strong id="defaultFeeRate">—</strong>
             <p>Charged only on utilised principal.</p>
           </article>
           <i aria-hidden="true">=</i>
@@ -1010,18 +974,19 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               <h3 id="waterfallHeading">The 1 day collected-fee waterfall</h3>
             </div>
             <div class="waterfall-row funder-row">
-              <span><b>38%</b> Funding partner</span
+              <span><b id="shareFunderRate">—</b> Funding partner</span
               ><strong id="earningsFunder">—</strong>
             </div>
             <div class="waterfall-row mmfl-row">
-              <span><b>27%</b> MMFL</span><strong id="earningsMmfl">—</strong>
+              <span><b id="shareMmflRate">—</b> MMFL</span
+              ><strong id="earningsMmfl">—</strong>
             </div>
             <div class="waterfall-row platform-row">
-              <span><b>22%</b> Night Float platform</span
+              <span><b id="sharePlatformRate">—</b> Night Float platform</span
               ><strong id="earningsPlatform">—</strong>
             </div>
             <div class="waterfall-row operations-row">
-              <span><b>13%</b> Sweep / operations</span
+              <span><b id="shareOperationsRate">—</b> Sweep / operations</span
               ><strong id="earningsOperations">—</strong>
             </div>
             <p class="waterfall-note">
@@ -1032,17 +997,20 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           <article class="pesewa-card">
             <p class="eyebrow">Unit economics · unchanged by horizon</p>
             <h3>Kojo uses GHS 100.</h3>
-            <p>At 0.5%, his total fee is 50 pesewas:</p>
+            <p>
+              At <span data-default-fee>—</span>, his total fee is 50 pesewas:
+            </p>
             <ul>
-              <li><b>19p</b><span>funding partner</span></li>
-              <li><b>13.5p</b><span>MMFL</span></li>
+              <li><b id="unitFunder">—</b><span>funding partner</span></li>
+              <li><b id="unitMmfl">—</b><span>MMFL</span></li>
               <li class="platform-pesewa">
-                <b>11p</b><span>Night Float</span>
+                <b id="unitPlatform">—</b><span>Night Float</span>
               </li>
-              <li><b>6.5p</b><span>operations</span></li>
+              <li><b id="unitOperations">—</b><span>operations</span></li>
             </ul>
             <strong class="plain-conclusion"
-              >Night Float earns 11 pesewas—not the whole 50.</strong
+              >Night Float receives <span id="unitPlatformWords">—</span>—not
+              the whole fee.</strong
             >
           </article>
         </div>
@@ -1532,8 +1500,9 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           <div data-category="money model">
             <dt>Night Float platform share</dt>
             <dd>
-              The modelled 22% portion of collected fees assigned to Night
-              Float. It is cash allocation before expenses—not profit.
+              The modelled <span data-fee-share="platform">—</span> portion of
+              collected fees assigned to Night Float. It is cash allocation
+              before expenses—not profit.
             </dd>
           </div>
           <div data-category="money">
@@ -1598,9 +1567,24 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </section>
 
+      <section id="sources" class="section-block source-register">
+        <div class="section-heading">
+          <p class="eyebrow">
+            Primary sources · last checked 15 September 2026
+          </p>
+          <h2>What is sourced—and what remains a proposal.</h2>
+          <p>
+            A source can establish the surrounding rule or sector signal. It
+            does not approve Night Float, confirm a partner, or prove a named
+            corridor has a dawn shortage.
+          </p>
+        </div>
+        <div id="sourceList" class="source-list"></div>
+      </section>
+
       <section id="frequent-questions" class="section-block questions">
         <div class="section-heading">
-          <p class="eyebrow">Seventeen honest answers</p>
+          <p class="eyebrow">Twenty-two honest answers</p>
           <h2>What people will ask next.</h2>
           <p>
             These answers separate what the simulation demonstrates, what the
@@ -1704,8 +1688,9 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           </summary>
           <p>
             No. Fees due, fees collected, and unpaid fees are different. Only
-            collected fees are split; Night Float receives 22% of that cash
-            before paying its own costs. This model does not calculate profit.
+            collected fees are split; Night Float receives
+            <span data-fee-share="platform">—</span> of that cash before paying
+            its own costs. This model does not calculate profit.
           </p>
         </details>
         <details>
@@ -1765,6 +1750,54 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             sandbox, data, and pool rail, the real pilot is a no-go.
           </p>
         </details>
+        <details>
+          <summary>Why is now the right time to test Night Float?</summary>
+          <p>
+            Sector reporting makes agent liquidity flows visible, while MMFL’s
+            own hourly data could test the narrower corridor hypothesis. The
+            timing claim is about access to evidence and a supervised pilot—not
+            a claim that regulation or APIs already approve the product.
+          </p>
+        </details>
+        <details>
+          <summary>Who uses, buys, and pays for Night Float?</summary>
+          <p>
+            A cash-in-heavy agent uses the dawn facility and pays a disclosed
+            fee on principal actually used. MMFL would own the product and
+            regulated customer/agent relationship. Night Float would receive a
+            contracted platform share of collected fees. The market customer
+            benefits from fewer refusals but is not the default funder.
+          </p>
+        </details>
+        <details>
+          <summary>What happens immediately after MMFL says yes?</summary>
+          <p>
+            First name the product, legal, and network owners; settle the rail,
+            tax, loss, and data questions; inspect 30 days of approved hourly
+            data; select a corridor; rehearse dusk settlement; agree the
+            baseline and kill thresholds; only then start a capped pilot.
+          </p>
+        </details>
+        <details>
+          <summary>Why should anyone trust the Night Float team?</summary>
+          <p>
+            The current evidence is the transparent model, explicit failure
+            cases, examiner-readable ledger, and willingness to kill the idea. A
+            fundraising deck must add named team roles and relevant execution
+            history. The site does not invent credentials that have not been
+            supplied.
+          </p>
+        </details>
+        <details>
+          <summary>Which evidence is real and which is simulated?</summary>
+          <p>
+            Dated regulator publications are external evidence. Every animated
+            till, acceptance decision, refusal count, fee, loss, and projection
+            on this site is synthetic. Corridor demand, agent willingness,
+            operating cost, legal treatment, and repayment performance remain
+            assumptions or questions awaiting partner data.
+          </p>
+        </details>
       </section>
     </main>
 
@@ -1775,11 +1808,12 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
       </p>
       <div>
         <a href="../">Control room</a><a href="./">Glossary</a
-        ><a href="../pitch/">Pitch deck</a
+        ><a href="../pitch/">Partner pitch</a
+        ><a href="../investor/">Investor deck</a
         ><a href="../?assumptions=1">Model assumptions</a
         ><a href="https://startuptribunal.com/maku">Contact Maku</a>
       </div>
     </footer>
-    <script type="module" src="./glossary.js?v=886151102b46"></script>
+    <script type="module" src="./glossary.js?v=754df48ac229"></script>
   </body>
 </html>

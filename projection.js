@@ -5,7 +5,7 @@
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
  */
 
-import { EVENT_TICKS, avoidedCashIn, roundMoney } from "./sim.js?v=d711319f06b7";
+import { EVENT_TICKS, avoidedCashIn, roundMoney } from "./sim.js?v=018b17bc762e";
 
 export const DEFAULT_HORIZON = "day";
 
