@@ -30,6 +30,8 @@ export function projectFrames(activeFrame, baselineFrame, horizonKey) {
   const totals = metrics.totals;
   const fees = metrics.feeWaterfall;
   const scale = (value) => roundMoney(value * days);
+  const grossFees = scale(metrics.grossFees);
+  const defaultLoss = scale(metrics.defaultLoss);
 
   return {
     key,
@@ -46,9 +48,9 @@ export function projectFrames(activeFrame, baselineFrame, horizonKey) {
     priceRejectedAgentDays: scale(metrics.priceRejected),
     frozenEvents: scale(metrics.frozen),
     defaultedPrincipal: scale(metrics.defaultedPrincipal),
-    defaultLoss: scale(metrics.defaultLoss),
-    grossFees: scale(metrics.grossFees),
-    systemResult: scale(metrics.systemResult),
+    defaultLoss,
+    grossFees,
+    systemResult: roundMoney(grossFees - defaultLoss),
     utilisationRate: metrics.utilisationRate,
     settlementRate: metrics.settlementRate,
     feeWaterfall: {
