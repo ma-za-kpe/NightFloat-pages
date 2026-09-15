@@ -1,12 +1,12 @@
 {
   "ownership": "Proprietary and Confidential",
   "files": {
-    "README.md": "6ca3d2dda99776e96a4a3be867bf3df6a3c1e713ab9f33a426d8f6ec821e68f7",
+    "README.md": "7a539663682bc5ef96b9021c4bbb036715bdb68a204b6f1bc9eb8af9997df172",
     "app.js": "1aa62836ad75b89abb6af74946b9844d486750a6bb062be1836ef27ca9a9f01d",
     "favicon.svg": "116c5e46ca17e971b63468c47e0ede9af85dbdcd45b9085d4db8b154deac5f40",
-    "glossary/glossary.css": "d90e1639cccb04854e9e4c669af2c04dd27aa289ee72b4b31d9f328be05057da",
+    "glossary/glossary.css": "ee206dfb8cb2dfa4de9b424d02900b65986e3373e1580d018032d64f2a6e19d4",
     "glossary/glossary.js": "19b3965124700826c86db16521da932241d87a266d45435bcaa1fdf6f3fc8e55",
-    "glossary/index.html": "9031834ff8725478fc21bd5f07c845312395497bfa2705ce47f7e1e904b147e8",
+    "glossary/index.html": "121959958b55648e9af4bd1a2a912b1387265a4832cd926165cd9b4c41888920",
     "index.html": "aec70d8d5e5f04c629290dedc23017c7a0d88143c128152ec573fb47cb46117d",
     "pitch/index.html": "9c7b37d495a5cbdea73d8e3a022d44aa5a1fe8e7a1af804c89ca7afbf1eb0bbb",
     "pitch/pitch.css": "b6c7175c063b96f766f00e1b5f72823f4292ccb9ab2024d0b13049fd26bc1517",

@@ -45,7 +45,7 @@ The interface is responsive down to a 320 px viewport. On phones, the market and
 ## Pages
 
 - `/` — the source-of-truth control room and five-act wind tunnel
-- `/glossary/` — searchable plain-language model guide, including every colour, symbol, and flow direction
+- `/glossary/` — searchable plain-language guide to the two-stock kiosk problem, operating day, partner plumbing, eleven risks, safe language, every visual sign and term, and fifteen common questions
 - `/pitch/` — eight-part MMFL partnership argument with the real wind tunnel embedded on slide four
 
 All three pages are offline-capable and tested at 1366 × 768, a Pixel-class mobile viewport, and the exact 320 px minimum.
