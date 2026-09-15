@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -22,7 +22,7 @@ export const EVENT_TICKS = Object.freeze({
   close: 95,
 });
 export const EXPLAINER =
-  "Seed 2026 · partner-backed default · fictional model data · cash-in comparison only · two accounting identities checked every tick";
+  "Seed 2026 · partner-backed default · fictional model data · cash-in comparison only · coded principal, fee, and safeguarding identities checked every tick · customer funding identity unresolved";
 
 export const DEFAULTS = Object.freeze({
   scenario: "on",
@@ -39,6 +39,114 @@ export const DEFAULTS = Object.freeze({
   score: true,
   sweep: true,
 });
+
+export const PARAMETER_RULES = Object.freeze({
+  optIn: Object.freeze({ min: 0, max: 80, step: 1 }),
+  defaultRate: Object.freeze({ min: 0, max: 20, step: 0.5 }),
+  facilityFee: Object.freeze({ min: 0.1, max: 1.2, step: 0.1 }),
+  demand: Object.freeze({ min: 50, max: 180, step: 5 }),
+  cashOutShare: Object.freeze({ min: 0, max: 100, step: 5 }),
+  bookCap: Object.freeze({ min: 20, max: 500, step: 10 }),
+  scoreThreshold: Object.freeze({ min: 0.5, max: 0.9, step: 0.02 }),
+});
+
+export const SCENARIO_PRESETS = Object.freeze({
+  off: Object.freeze({
+    scenario: "off",
+    defaultRate: 2,
+    bookCap: 100,
+    mmfl: true,
+    bank: true,
+    score: true,
+    sweep: true,
+  }),
+  on: Object.freeze({
+    scenario: "on",
+    defaultRate: 2,
+    bookCap: 100,
+    mmfl: true,
+    bank: true,
+    score: true,
+    sweep: true,
+  }),
+  stress: Object.freeze({
+    scenario: "stress",
+    defaultRate: 12,
+    bookCap: 70,
+    mmfl: true,
+    bank: true,
+    score: true,
+    sweep: false,
+  }),
+});
+
+const BOOLEAN_PARAMETERS = Object.freeze(["mmfl", "bank", "score", "sweep"]);
+const FUNDING_MODELS = Object.freeze(["partner", "customer"]);
+
+export function normaliseScenario(value) {
+  if (value === "baseline") return "off";
+  if (value === "dawn") return "on";
+  if (Object.hasOwn(SCENARIO_PRESETS, value)) return value;
+  throw new RangeError(`Unknown scenario: ${value}`);
+}
+
+function snapToStep(value, { min, max, step }) {
+  const bounded = clamp(value, min, max);
+  const snapped = min + Math.round((bounded - min) / step) * step;
+  return Number(snapped.toFixed(8));
+}
+
+export function normaliseConfig(input = {}, { mode = "strict" } = {}) {
+  const requested = input.scenario ?? DEFAULTS.scenario;
+  let scenario;
+  try {
+    scenario = normaliseScenario(requested);
+  } catch (error) {
+    if (mode === "strict") throw error;
+    scenario = DEFAULTS.scenario;
+  }
+  const merged = {
+    ...DEFAULTS,
+    ...SCENARIO_PRESETS[scenario],
+    ...input,
+    scenario,
+  };
+  for (const [name, rule] of Object.entries(PARAMETER_RULES)) {
+    const value = Number(merged[name]);
+    const valid =
+      Number.isFinite(value) && value >= rule.min && value <= rule.max;
+    const snapped = valid ? snapToStep(value, rule) : null;
+    const onStep = valid && Math.abs(snapped - value) < 1e-8;
+    if (mode === "strict" && (!valid || !onStep)) {
+      throw new RangeError(
+        `${name} must be ${rule.min}–${rule.max} in steps of ${rule.step}`,
+      );
+    }
+    merged[name] =
+      mode === "strict" ? value : snapToStep(value || rule.min, rule);
+  }
+  if (!FUNDING_MODELS.includes(merged.fundingModel)) {
+    if (mode === "strict") throw new RangeError("Unknown funding model");
+    merged.fundingModel = DEFAULTS.fundingModel;
+  }
+  for (const name of BOOLEAN_PARAMETERS) {
+    if (typeof merged[name] !== "boolean") {
+      if (mode === "strict") throw new TypeError(`${name} must be boolean`);
+      merged[name] = Boolean(merged[name]);
+    }
+  }
+  return merged;
+}
+
+export function scenarioConfig(scenario, overrides = {}) {
+  return normaliseConfig({ ...overrides, scenario });
+}
+
+export function normaliseTick(value) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return EVENT_TICKS.preflight + 1;
+  return Math.round(clamp(number, 0, TICKS - 1));
+}
 
 export const MODEL_LIMITS = Object.freeze({
   maxPacketAmount: 3500,
@@ -121,12 +229,18 @@ export function cashOutFactor(hour) {
 
 export function getFeeWaterfall(grossFees, fundingModel) {
   const shares = FEE_WATERFALLS[fundingModel] || FEE_WATERFALLS.partner;
-  return Object.fromEntries(
-    Object.entries(shares).map(([name, ratio]) => [
-      name,
-      roundMoney(grossFees * ratio),
-    ]),
+  const entries = Object.entries(shares);
+  const waterfall = Object.fromEntries(
+    entries.map(([name, ratio]) => [name, roundMoney(grossFees * ratio)]),
   );
+  const distributed = Object.values(waterfall).reduce(
+    (sum, amount) => sum + amount,
+    0,
+  );
+  waterfall.operations = roundMoney(
+    waterfall.operations + roundMoney(grossFees) - roundMoney(distributed),
+  );
+  return waterfall;
 }
 
 export function expectedMorningNeed(agent, params) {
@@ -219,7 +333,7 @@ function deepFreeze(value) {
 }
 
 export function createWorld(params = DEFAULTS) {
-  const merged = { ...DEFAULTS, ...params };
+  const merged = normaliseConfig(params);
   const random = mulberry32(SEED);
   const cashOutCount = Math.round((AGENT_COUNT * merged.cashOutShare) / 100);
   const mixedCount = Math.min(15, AGENT_COUNT - cashOutCount);
@@ -279,6 +393,9 @@ export function createWorld(params = DEFAULTS) {
         defaulted: 0,
       },
       feeDue: 0,
+      feePaid: 0,
+      feeReceivable: 0,
+      feeWrittenOff: 0,
       settled: 0,
       shortfall: 0,
       servedCashIn: 0,
@@ -327,6 +444,10 @@ export function buildBooks({
   defaultedPrincipal,
   fundingModel,
   customerCapacity,
+  accruedFees = 0,
+  collectedFees = 0,
+  feeReceivable = 0,
+  feeWrittenOff = 0,
 }) {
   const closed = agents.some(
     (agent) =>
@@ -346,15 +467,21 @@ export function buildBooks({
     settledPrincipal +
     defaultedPrincipal;
   const facilityDelta = roundMoney(capacity - facilityAssets);
-  const customerClaims =
-    fundingModel === "customer"
-      ? customerCapacity
-      : MODEL_LIMITS.safeguardedCustomerBalance;
+  const customerClaims = MODEL_LIMITS.safeguardedCustomerBalance;
   const safeguardedVaultBalance = customerClaims;
   const customerLoss = 0;
   const customerDelta = roundMoney(
     customerClaims - safeguardedVaultBalance - customerLoss,
   );
+  const feeDelta = roundMoney(
+    accruedFees - collectedFees - feeReceivable - feeWrittenOff,
+  );
+  const identifiedFundingAsset = fundingModel === "partner" ? capacity : 0;
+  const crossLedgerDelta = roundMoney(capacity - identifiedFundingAsset);
+  const arithmeticOk =
+    Math.abs(facilityDelta) <= 0.02 &&
+    Math.abs(customerDelta) <= 0.02 &&
+    Math.abs(feeDelta) <= 0.02;
   return {
     facility: {
       sourcePrincipal: roundMoney(capacity),
@@ -371,7 +498,29 @@ export function buildBooks({
       explainedCustomerLoss: customerLoss,
       delta: customerDelta,
     },
-    ok: Math.abs(facilityDelta) <= 0.02 && Math.abs(customerDelta) <= 0.02,
+    fees: {
+      accrued: roundMoney(accruedFees),
+      collected: roundMoney(collectedFees),
+      receivable: roundMoney(feeReceivable),
+      writtenOff: roundMoney(feeWrittenOff),
+      delta: feeDelta,
+    },
+    crossLedger: {
+      requiredFacilityFunding: roundMoney(capacity),
+      identifiedFundingAsset: roundMoney(identifiedFundingAsset),
+      unresolvedFundingGap: crossLedgerDelta,
+      status: fundingModel === "partner" ? "separate" : "unresolved",
+      lossBearer: fundingModel === "partner" ? "agent-liability" : "unassigned",
+      unresolvedPrincipal: roundMoney(defaultedPrincipal),
+      customerLockCapacity: roundMoney(customerCapacity),
+    },
+    ok: arithmeticOk,
+    complete: arithmeticOk && Math.abs(crossLedgerDelta) <= 0.02,
+    status: !arithmeticOk
+      ? "broken"
+      : Math.abs(crossLedgerDelta) > 0.02
+        ? "unresolved"
+        : "reconciled",
   };
 }
 
@@ -431,27 +580,23 @@ export function processCashOut(agent, amount) {
 }
 
 export function sweepAgent(agent) {
-  const principalGap = Math.max(0, agent.facility.utilised - agent.ownEfloat);
-  const feeGap = Math.max(
-    0,
-    agent.feeDue - Math.max(0, agent.ownEfloat - principalGap),
-  );
+  const allocated = agent.facility.allocated ?? agent.facility.utilised ?? 0;
+  const settlementDue = allocated + (agent.feeDue ?? 0);
+  const availableEfloat = (agent.facility.idle ?? 0) + agent.ownEfloat;
+  const settlementGap = Math.max(0, settlementDue - availableEfloat);
   const availableCash = Math.max(0, agent.cash - MODEL_LIMITS.agentCashReserve);
-  const swept = Math.min(principalGap + feeGap, availableCash);
+  const swept = Math.min(settlementGap, availableCash);
   agent.cash -= swept;
   addEfloat(agent, swept);
   return swept;
 }
 
 export function simulate(inputParams = DEFAULTS, forcedScenario) {
-  const params = { ...DEFAULTS, ...inputParams };
-  const requestedScenario = forcedScenario || params.scenario;
-  const scenario =
-    requestedScenario === "baseline"
-      ? "off"
-      : requestedScenario === "dawn"
-        ? "on"
-        : requestedScenario;
+  const params = normaliseConfig({
+    ...inputParams,
+    ...(forcedScenario ? { scenario: forcedScenario } : {}),
+  });
+  const scenario = params.scenario;
   const { agents, demand, customers } = createWorld(params);
   const incidents = [];
   const frames = [];
@@ -480,6 +625,8 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
   let priceRejected = 0;
   let acceptedAgents = 0;
   let sweptTotal = 0;
+  let collectedFees = 0;
+  const feeWrittenOff = 0;
 
   if (params.fundingModel === "customer" && scenario !== "off") {
     addIncident(
@@ -712,7 +859,6 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
 
     if (hour >= 6 && hour < 19.5) {
       agents.forEach((agent, index) => {
-        if (agent.frozen) return;
         const profile =
           agent.type === "cashin"
             ? { inRate: 4.8, outRate: 0.65 }
@@ -729,6 +875,14 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
           profile.outRate * cashOutFactor(hour) * scale,
           shock.outNoise,
         );
+
+        if (agent.frozen) {
+          agent.refusedCashIn += cashIns;
+          agent.refusedCashOut += cashOuts;
+          agent.refusedNow = cashIns > 0;
+          agent.cashOutRefusedNow = cashOuts > 0;
+          return;
+        }
 
         for (let transaction = 0; transaction < cashIns; transaction += 1) {
           const amount = shock.inValue * (0.75 + transaction * 0.045);
@@ -834,6 +988,12 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
           agent.settled = paid;
           agent.shortfall = Math.max(0, due - paid);
           agent.facility.repaid = Math.min(agent.facility.allocated, paid);
+          agent.feePaid = Math.min(
+            agent.feeDue,
+            Math.max(0, paid - agent.facility.repaid),
+          );
+          agent.feeReceivable = Math.max(0, agent.feeDue - agent.feePaid);
+          collectedFees += agent.feePaid;
           agent.facility.defaulted = Math.max(
             0,
             agent.facility.allocated - agent.facility.repaid,
@@ -853,11 +1013,21 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
               tick,
               "danger",
               `${agent.id} missed settlement`,
-              `${Math.round(agent.shortfall).toLocaleString("en-GH")} GHS remains unresolved. ${agent.id} is out of tomorrow’s allocation file.`,
+              `${Math.round(agent.facility.defaulted).toLocaleString("en-GH")} GHS principal and ${roundMoney(agent.feeReceivable).toLocaleString("en-GH")} GHS fee remain unpaid. ${agent.id} is out of tomorrow’s allocation file.`,
               `DEFAULT-${agent.id}`,
             );
           } else {
             agent.facility.state = "repaid";
+          }
+          if (agent.feeReceivable > 0.01) {
+            addIncident(
+              incidents,
+              tick,
+              "warning",
+              `${agent.id} fee remains unpaid`,
+              `${roundMoney(agent.feeReceivable).toLocaleString("en-GH")} GHS is recorded as a fee receivable, not distributed cash.`,
+              `FEE_RECEIVABLE-${agent.id}`,
+            );
           }
           packets.push(
             packet({
@@ -940,7 +1110,15 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
       },
     );
     const grossFees = (totals.utilisedPrincipal * params.facilityFee) / 100;
-    const feeWaterfall = getFeeWaterfall(grossFees, params.fundingModel);
+    const feeReceivable = agents.reduce(
+      (sum, agent) =>
+        sum +
+        (tick >= EVENT_TICKS.settle
+          ? agent.feeReceivable
+          : Math.max(0, agent.feeDue - agent.feePaid)),
+      0,
+    );
+    const feeWaterfall = getFeeWaterfall(collectedFees, params.fundingModel);
     const books = buildBooks({
       capacity,
       allocated,
@@ -949,6 +1127,10 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
       defaultedPrincipal,
       fundingModel: params.fundingModel,
       customerCapacity,
+      accruedFees: grossFees,
+      collectedFees,
+      feeReceivable,
+      feeWrittenOff,
     });
     assertBooks(books);
     const settlementRate =
@@ -994,11 +1176,16 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
         idleAllocated: roundMoney(totals.idleAllocated),
         refusedCashIn: totals.refusedCashIn,
         refusedCashOut: totals.refusedCashOut,
+        accruedFees: roundMoney(grossFees),
+        collectedFees: roundMoney(collectedFees),
+        feeReceivable: roundMoney(feeReceivable),
+        feeWrittenOff: roundMoney(feeWrittenOff),
         grossFees: roundMoney(grossFees),
         feeWaterfall,
         defaultLoss: roundMoney(defaultLoss),
         defaultedPrincipal: roundMoney(defaultedPrincipal),
-        systemResult: roundMoney(grossFees - defaultLoss),
+        cashResultBeforeCosts: roundMoney(collectedFees - defaultLoss),
+        systemResult: roundMoney(collectedFees - defaultLoss),
         settlementRate,
         settled: roundMoney(settled),
         settledPrincipal: roundMoney(settledPrincipal),
@@ -1019,18 +1206,7 @@ export function simulate(inputParams = DEFAULTS, forcedScenario) {
 }
 
 export function comparableBaseline(params = DEFAULTS) {
-  return simulate(
-    {
-      ...DEFAULTS,
-      ...params,
-      scenario: "off",
-      mmfl: true,
-      bank: true,
-      score: true,
-      sweep: true,
-    },
-    "off",
-  );
+  return simulate({ ...params, ...SCENARIO_PRESETS.off });
 }
 
 export function avoidedCashIn(activeFrame, baselineFrame) {

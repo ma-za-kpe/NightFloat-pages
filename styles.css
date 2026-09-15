@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -67,6 +67,33 @@ button {
 }
 .app-shell {
   min-height: 100vh;
+}
+.model-trust-banner {
+  width: min(1600px, calc(100% - 36px));
+  margin: 12px auto 0;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid rgba(255, 181, 71, 0.38);
+  border-radius: 10px;
+  color: #fff2d8;
+  background: rgba(255, 181, 71, 0.1);
+  font-size: 12px;
+  line-height: 1.45;
+}
+.model-trust-banner strong {
+  flex: 0 0 auto;
+  color: var(--amber);
+  font-size: 12px;
+}
+@media (max-width: 780px) {
+  .model-trust-banner {
+    width: calc(100% - 16px);
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 4px;
+  }
 }
 
 .topbar {
@@ -1817,4 +1844,138 @@ dialog::backdrop {
     padding: 0 12px;
     border: 1px solid var(--line);
   }
+}
+
+/* Accessibility and audit closure: readable type, visible focus, reliable targets. */
+/* stylelint-disable no-duplicate-selectors -- final accessibility overrides */
+:where(button, select, a):focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+select {
+  outline: revert;
+}
+.info-button {
+  width: 44px;
+  height: 44px;
+  margin: -13px;
+  font-size: 12px;
+}
+.scenario-switch > .info-button {
+  right: -52px;
+}
+.control-result-strip {
+  margin: 0 0 14px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  border: 1px solid rgba(85, 184, 255, 0.28);
+  border-radius: 10px;
+  background: rgba(85, 184, 255, 0.07);
+}
+.control-result-strip span {
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.control-result-strip small {
+  color: var(--muted);
+  font:
+    800 10px/1.25 ui-monospace,
+    monospace;
+}
+.control-result-strip b {
+  overflow-wrap: anywhere;
+  font-size: 14px;
+}
+.books-badge.unresolved {
+  color: var(--blue);
+  border-color: rgba(85, 184, 255, 0.42);
+  background: rgba(85, 184, 255, 0.1);
+}
+.eyebrow,
+.legal-warning,
+.info-popover,
+.metric-label,
+.metric-card p,
+.incident-item strong,
+.incident-item p,
+.select-control > span,
+.section-label span,
+.site-footer span,
+.site-footer a,
+.legend,
+.timeline-labels {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.ghost-button,
+.text-button,
+.scenario-button,
+.transport button,
+.site-footer a,
+select {
+  min-height: 44px;
+}
+@media (max-width: 780px) {
+  .scenario-switch > .info-button {
+    right: 0;
+    top: -43px;
+  }
+  .control-result-strip {
+    position: sticky;
+    top: 0;
+    z-index: 4;
+  }
+  .legend,
+  .timeline-labels,
+  .metric-label,
+  .metric-card p,
+  .incident-item strong,
+  .incident-item p {
+    font-size: 12px;
+  }
+}
+@media (forced-colors: active) {
+  .light,
+  .scenario-dot,
+  .books-badge,
+  .event-banner {
+    forced-color-adjust: none;
+    border: 2px solid CanvasText;
+  }
+}
+/* stylelint-enable no-duplicate-selectors */
+
+.topbar :where(a, button),
+.night-strip,
+.clock-block span,
+.phase-badge,
+.books-badge,
+.event-banner,
+.model-watermark,
+.ledger-ribbon,
+.ledger-ribbon strong,
+.transport :where(button, span),
+.control-panel :where(output, small, p, b),
+.evidence-panel :where(small, p, code, time, dt, dd, li),
+.count-pill {
+  font-size: 12px !important;
+  line-height: 1.35;
+}
+.control-panel :where(output, dt, dd, small, p, b, span, code),
+.partner-state :where(span, b),
+.site-footer :where(span, a) {
+  font-size: 12px !important;
+  line-height: 1.4;
+}
+.text-button,
+.partner-icon,
+.projection-scope span,
+.metric-label i,
+.topbar small,
+.topbar h1 span {
+  font-size: 12px !important;
 }

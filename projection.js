@@ -1,11 +1,11 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
  */
 
-import { avoidedCashIn, roundMoney } from "./sim.js";
+import { EVENT_TICKS, avoidedCashIn, roundMoney } from "./sim.js?v=d711319f06b7";
 
 export const DEFAULT_HORIZON = "day";
 
@@ -26,11 +26,19 @@ export function getHorizon(key) {
 
 export function projectFrames(activeFrame, baselineFrame, horizonKey) {
   const { key, label, days } = getHorizon(horizonKey);
+  if (days > 1 && activeFrame.tick !== EVENT_TICKS.close) {
+    throw new RangeError(
+      "Multi-day sensitivity views require the complete closing frame",
+    );
+  }
   const metrics = activeFrame.metrics;
   const totals = metrics.totals;
   const fees = metrics.feeWaterfall;
   const scale = (value) => roundMoney(value * days);
-  const grossFees = scale(metrics.grossFees);
+  const accruedFees = scale(metrics.accruedFees);
+  const collectedFees = scale(metrics.collectedFees);
+  const feeReceivable = scale(metrics.feeReceivable);
+  const feeWrittenOff = scale(metrics.feeWrittenOff);
   const defaultLoss = scale(metrics.defaultLoss);
 
   return {
@@ -49,8 +57,15 @@ export function projectFrames(activeFrame, baselineFrame, horizonKey) {
     frozenEvents: scale(metrics.frozen),
     defaultedPrincipal: scale(metrics.defaultedPrincipal),
     defaultLoss,
-    grossFees,
-    systemResult: roundMoney(grossFees - defaultLoss),
+    accruedFees,
+    collectedFees,
+    feeReceivable,
+    feeWrittenOff,
+    grossFees: accruedFees,
+    cashResultBeforeCosts: roundMoney(collectedFees - defaultLoss),
+    systemResult: roundMoney(collectedFees - defaultLoss),
+    sourceTick: activeFrame.tick,
+    isSensitivityOnly: days > 1,
     utilisationRate: metrics.utilisationRate,
     settlementRate: metrics.settlementRate,
     feeWaterfall: {

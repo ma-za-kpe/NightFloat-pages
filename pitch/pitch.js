@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -13,8 +13,9 @@ import {
   avoidedCashIn,
   comparableBaseline,
   idleAllocated,
+  scenarioConfig,
   simulate,
-} from "../sim.js";
+} from "../sim.js?v=d711319f06b7";
 
 const slides = [...document.querySelectorAll(".slide")];
 const previous = document.querySelector("#previousSlide");
@@ -63,26 +64,19 @@ function setText(selector, value) {
   return Boolean(target);
 }
 
-export function renderEvidence() {
+export function renderEvidence(overrides = {}) {
   const booksTarget = document.querySelector("#pitchBooks");
   try {
-    const active = simulate({
-      ...DEFAULTS,
-      fundingModel: "partner",
-      scenario: "on",
-    })[EVENT_TICKS.midday];
+    const active = simulate(
+      scenarioConfig("on", { fundingModel: "partner", ...overrides }),
+    )[EVENT_TICKS.midday];
     const baseline = comparableBaseline({
       ...DEFAULTS,
       fundingModel: "partner",
     })[EVENT_TICKS.midday];
-    const stress = simulate({
-      ...DEFAULTS,
-      fundingModel: "partner",
-      scenario: "stress",
-      defaultRate: 12,
-      sweep: false,
-      bookCap: 70,
-    })[EVENT_TICKS.settle];
+    const stress = simulate(
+      scenarioConfig("stress", { fundingModel: "partner" }),
+    )[EVENT_TICKS.settle];
     assertBooks(active);
     assertBooks(baseline);
     assertBooks(stress);
@@ -112,7 +106,7 @@ export function renderEvidence() {
       `${formatPitchMoney(stress.metrics.defaultedPrincipal)} unresolved · agent liability; ultimate loss owner TBD`,
     );
     if (booksTarget) {
-      booksTarget.textContent = "BOOKS OK";
+      booksTarget.textContent = "CODED LEDGERS RECONCILE";
       booksTarget.className = "ok";
     }
     return { seed: SEED, active, baseline, stress };
@@ -135,6 +129,7 @@ export function showSlide(requested, announce = true) {
     const active = index === current;
     slide.classList.toggle("active", active);
     slide.setAttribute("aria-hidden", String(!active));
+    slide.setAttribute("tabindex", active ? "0" : "-1");
     slide.inert = !active;
   });
   [...(dots?.children || [])].forEach((dot, index) => {
@@ -173,7 +168,10 @@ export function runWindTunnel() {
   const frame = document.querySelector("#pitchWindTunnel");
   if (!frame) return false;
   windTunnelRun += 1;
-  frame.src = `../?embed=1&tour=1&motion=reduce&run=${windTunnelRun}`;
+  frame.setAttribute(
+    "src",
+    `../?embed=1&tour=1&motion=reduce&run=${windTunnelRun}`,
+  );
   if (play) {
     play.textContent = "↻";
     play.setAttribute("aria-label", "Replay 90-second wind tunnel");

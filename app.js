@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -14,12 +14,15 @@ import {
   agentHealth,
   clamp,
   comparableBaseline,
+  normaliseConfig,
+  normaliseTick,
   phaseForTick,
+  scenarioConfig,
   simulate,
   timeForTick,
-} from "./sim.js";
-import { DEFAULT_HORIZON, HORIZONS, projectFrames } from "./projection.js";
-import { pathGeometry } from "./visual.js";
+} from "./sim.js?v=d711319f06b7";
+import { DEFAULT_HORIZON, HORIZONS, projectFrames } from "./projection.js?v=e861609b8b69";
+import { pathGeometry } from "./visual.js?v=86a9d22152d0";
 
 const COLORS = Object.freeze({
   gold: "#ffcf33",
@@ -45,6 +48,7 @@ const state = {
   reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
   staticCanvasSignature: "",
   horizon: DEFAULT_HORIZON,
+  lastIncidentCode: null,
 };
 
 const $ = (id) => document.getElementById(id);
@@ -91,6 +95,11 @@ const elements = {
   projectionScope: $("projectionScope"),
   projectionAllocated: $("projectionAllocated"),
   projectionDisclaimer: $("projectionDisclaimer"),
+  controlRefused: $("controlRefused"),
+  controlCollected: $("controlCollected"),
+  controlLoss: $("controlLoss"),
+  marketTextSummary: $("marketTextSummary"),
+  incidentAnnouncement: $("incidentAnnouncement"),
 };
 
 const controlMap = {
@@ -498,12 +507,22 @@ function renderClock() {
   elements.phaseBadge.dataset.phase = phaseClass;
   elements.timeline.value = state.tick;
   elements.playButton.textContent = state.playing ? "Ⅱ" : "▶";
+  elements.playButton.setAttribute(
+    "aria-label",
+    state.playing ? "Pause simulation" : "Play simulation",
+  );
 }
 
 function renderBooks(frame) {
   const books = frame.books;
-  elements.booksBadge.textContent = books.ok ? "BOOKS OK" : "BOOKS BROKEN";
-  elements.booksBadge.className = `books-badge ${books.ok ? "ok" : "broken"}`;
+  const status = books.status;
+  elements.booksBadge.textContent =
+    status === "reconciled"
+      ? "CODED LEDGERS RECONCILE"
+      : status === "unresolved"
+        ? "FUNDING IDENTITY UNRESOLVED"
+        : "CODED LEDGERS BROKEN";
+  elements.booksBadge.className = `books-badge ${status === "reconciled" ? "ok" : status === "unresolved" ? "unresolved" : "broken"}`;
   elements.ledgerAllocated.textContent = money(frame.metrics.allocated, true);
   elements.ledgerUtilised.textContent = money(
     frame.metrics.totals.utilisedPrincipal,
@@ -520,8 +539,9 @@ function renderBooks(frame) {
 }
 
 function renderMetrics() {
-  const frame = state.activeTape[state.tick];
-  const baseline = state.baseTape[state.tick];
+  const useClose = state.horizon !== DEFAULT_HORIZON;
+  const frame = state.activeTape[useClose ? EVENT_TICKS.close : state.tick];
+  const baseline = state.baseTape[useClose ? EVENT_TICKS.close : state.tick];
   const projection = projectFrames(frame, baseline, state.horizon);
   const avoided = projection.avoidedCashIn;
   const periodSuffix =
@@ -552,7 +572,10 @@ function renderMetrics() {
       : projection.settlementRate !== null
         ? "positive"
         : "";
-  elements.profitMetric.textContent = money(projection.systemResult, true);
+  elements.profitMetric.textContent = money(
+    projection.cashResultBeforeCosts,
+    true,
+  );
   elements.profitMetric.style.color =
     projection.systemResult < 0 ? COLORS.red : "";
   const split = projection.feeWaterfall;
@@ -560,10 +583,14 @@ function renderMetrics() {
     state.params.fundingModel === "customer"
       ? ` · User fee_share ${money(split.customerFeeShare, true)}`
       : "";
-  elements.feeMetric.textContent = `Fees ${money(projection.grossFees, true)} · Funder ${money(split.fundingPartner, true)} · MMFL ${money(split.mmfl, true)} · Platform ${money(split.platform, true)}${customerShare}`;
+  elements.feeMetric.textContent = `Collected fees ${money(projection.collectedFees, true)} · unpaid ${money(projection.feeReceivable, true)} · Funder ${money(split.fundingPartner, true)} · MMFL ${money(split.mmfl, true)} · Platform ${money(split.platform, true)}${customerShare}`;
   elements.projectionScope.textContent = `${projection.days.toLocaleString("en-GH")} modeled ${projection.days === 1 ? "day" : "days"}`;
   elements.projectionAllocated.textContent = `${money(projection.allocatedVolume, true)} allocation volume`;
-  elements.projectionDisclaimer.textContent = `${projection.label} · same selected day repeated · live market and books stay daily · model projection, not a forecast`;
+  elements.projectionDisclaimer.textContent = `${projection.label} · ${projection.days > 1 ? "complete closing day repeated as arithmetic sensitivity" : "selected daily frame"} · no calibration or probability · not a forecast, price, or pilot estimate`;
+  elements.controlRefused.textContent =
+    projection.refusedCashIn.toLocaleString("en-GH");
+  elements.controlCollected.textContent = money(projection.collectedFees, true);
+  elements.controlLoss.textContent = money(projection.defaultedPrincipal, true);
   renderBooks(frame);
 }
 
@@ -581,6 +608,22 @@ function renderIncidents() {
         `<article class="incident-item ${incident.severity}" data-code="${incident.code}"><time>${incident.timestamp}</time><div><strong>${incident.entity} · ${incident.code}</strong><p><b>Event:</b> ${incident.event}. ${incident.immediate_consequence}</p><dl><div><dt>Safeguard</dt><dd>${incident.safeguard}</dd></div><div><dt>Residual</dt><dd>${incident.residual_exposure}</dd></div><div><dt>Decision</dt><dd>${incident.decision_required}</dd></div></dl></div></article>`,
     )
     .join("");
+  const latest = incidents[0];
+  if (latest && latest.code !== state.lastIncidentCode) {
+    elements.incidentAnnouncement.textContent = `${latest.timestamp}: ${latest.title}. ${latest.immediate_consequence}`;
+    state.lastIncidentCode = latest.code;
+  }
+}
+
+function renderMarketText() {
+  const agents = state.activeTape[state.tick].agents;
+  const states = { green: 0, amber: 0, red: 0, idle: 0 };
+  let cashOutRefusals = 0;
+  for (const agent of agents) {
+    states[agentHealth(agent, state.tick)] += 1;
+    if (agent.cashOutRefusedNow) cashOutRefusals += 1;
+  }
+  elements.marketTextSummary.textContent = `${timeForTick(state.tick)} market: ${states.green} healthy, ${states.amber} at risk, ${states.red} cash-in refused, ${states.idle} closed or idle; ${cashOutRefusals} tills currently refusing cash-out.`;
 }
 
 function renderBanner() {
@@ -600,10 +643,8 @@ function renderBanner() {
       state.params.scenario === "stress",
     ],
     76: [
-      state.params.sweep && state.params.scenario !== "stress"
-        ? "16:00 · DUSK SWEEP"
-        : "16:00 · SWEEP FAILED",
-      !state.params.sweep || state.params.scenario === "stress",
+      state.params.sweep ? "16:00 · DUSK SWEEP" : "16:00 · SWEEP FAILED",
+      !state.params.sweep,
     ],
     84: [
       state.activeTape[state.tick].metrics.frozen
@@ -653,7 +694,14 @@ function renderAssumptions() {
       "A2A rule",
       `≤ GHS ${MODEL_LIMITS.a2aMaxHop}, ${MODEL_LIMITS.a2aMaxHopsPerAgent} hops, 15 min`,
     ],
-    ["Books", frame.books.ok ? "Both identities pass" : "BROKEN"],
+    [
+      "Books",
+      frame.books.status === "reconciled"
+        ? "Coded principal, fee, and safeguarding identities reconcile"
+        : frame.books.status === "unresolved"
+          ? "Arithmetic passes; customer funding identity unresolved"
+          : "BROKEN",
+    ],
   );
   elements.assumptionTable.innerHTML = rows
     .map(
@@ -672,6 +720,7 @@ function renderAll() {
   renderIncidents();
   drawEntities();
   drawPackets();
+  renderMarketText();
   drawChart();
   renderBanner();
   renderAssumptions();
@@ -723,36 +772,22 @@ function syncControls() {
   $("bankToggle").checked = state.params.bank;
   $("scoreToggle").checked = state.params.score;
   $("sweepToggle").checked = state.params.sweep;
-  document
-    .querySelectorAll(".scenario-button")
-    .forEach((button) =>
-      button.classList.toggle(
-        "active",
-        button.dataset.scenario === state.params.scenario,
-      ),
-    );
+  document.querySelectorAll(".scenario-button").forEach((button) => {
+    const active = button.dataset.scenario === state.params.scenario;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
 }
 
 function applyScenario(scenario, { play = true } = {}) {
-  state.params.scenario = scenario;
-  if (scenario === "off" || scenario === "on") {
-    Object.assign(state.params, {
-      defaultRate: 2,
-      mmfl: true,
-      bank: true,
-      score: true,
-      sweep: true,
-    });
-  } else {
-    Object.assign(state.params, {
-      defaultRate: 12,
-      sweep: false,
-      mmfl: true,
-      bank: true,
-      score: true,
-      bookCap: 70,
-    });
-  }
+  state.params = scenarioConfig(scenario, {
+    fundingModel: state.params.fundingModel,
+    optIn: state.params.optIn,
+    facilityFee: state.params.facilityFee,
+    demand: state.params.demand,
+    cashOutShare: state.params.cashOutShare,
+    scoreThreshold: state.params.scoreThreshold,
+  });
   state.tick = PRESENTER_START;
   state.playing = play;
   syncControls();
@@ -943,14 +978,7 @@ function loadShareableView() {
   const query = new URLSearchParams(window.location.search);
   const scenario = query.get("scenario");
   if (["off", "on", "stress"].includes(scenario)) {
-    state.params.scenario = scenario;
-    if (scenario === "stress") {
-      Object.assign(state.params, {
-        defaultRate: 12,
-        sweep: false,
-        bookCap: 70,
-      });
-    }
+    state.params = scenarioConfig(scenario);
   }
   const fundingModel = query.get("funding");
   if (["partner", "customer"].includes(fundingModel)) {
@@ -973,12 +1001,13 @@ function loadShareableView() {
     }
   });
   if (query.has("time")) {
-    state.tick = clamp(Number(query.get("time")) || 0, 0, TICKS - 1);
+    state.tick = normaliseTick(query.get("time"));
     state.playing = false;
   }
   if (query.get("motion") === "reduce") state.reducedMotion = true;
   if (query.get("deck") === "1") document.body.classList.add("deck-mode");
   if (query.get("embed") === "1") document.body.classList.add("embed-mode");
+  state.params = normaliseConfig(state.params, { mode: "clamp" });
   return query;
 }
 

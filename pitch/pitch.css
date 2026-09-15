@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -1102,6 +1102,116 @@ h2 em {
     bottom: 22px;
   }
 }
+
+.deck-header :where(a, small),
+.deck-links span,
+.slide :where(p, small, span, time, b, code),
+.slide .model-stamp,
+.closing-line a,
+.deck-controls span,
+.deck-footer :where(span, a) {
+  /* Projected and handheld views must never depend on micro-copy. */
+  font-size: max(12px, 0.88vw) !important;
+  line-height: 1.45;
+}
+.model-stamp,
+.closing-line a {
+  font-size: 12px !important;
+}
+@media (max-width: 560px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+  .slide {
+    height: calc(100dvh - 62px);
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .deck-footer {
+    display: none;
+  }
+}
+
+/* Presentation accessibility: projector-readable type and honest mobile pacing. */
+/* stylelint-disable no-duplicate-selectors -- accessibility overrides */
+:where(button, a):focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+.slide :where(p, li, small, span),
+.signal-note,
+.partnership-sentence,
+.deck-footer {
+  font-size: max(12px, 0.78vw);
+  line-height: 1.45;
+}
+.deck-controls button {
+  width: 44px;
+  height: 44px;
+}
+.slide-dots {
+  gap: 0;
+}
+.slide-dots button {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  background: transparent;
+}
+.slide-dots button::before {
+  position: absolute;
+  inset: 17px;
+  border-radius: 50%;
+  background: #71798a;
+  content: "";
+}
+.slide-dots button.active {
+  width: 44px;
+  background: transparent;
+}
+.slide-dots button.active::before {
+  inset-inline: 11px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+@media (max-width: 560px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+  .slide {
+    height: calc(100dvh - 62px);
+    min-height: 0;
+    padding: 28px 16px 92px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .hero-window,
+  .live-window,
+  iframe {
+    min-height: 420px;
+    height: 56vh;
+  }
+  .deck-controls {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .deck-footer {
+    display: none;
+  }
+}
+@media (forced-colors: active) {
+  .route,
+  .status-light,
+  .slide-dots button::before {
+    forced-color-adjust: none;
+    border: 2px solid CanvasText;
+  }
+}
+/* stylelint-enable no-duplicate-selectors */
 @media (max-width: 560px) {
   .deck-header {
     height: auto;
@@ -1584,3 +1694,29 @@ h2 em {
     border-radius: 8px;
   }
 }
+
+/* stylelint-disable no-duplicate-selectors -- final mobile audit overrides */
+.deck-header :where(a, small),
+.slide :where(p, small, span, time),
+.deck-controls span,
+.deck-footer :where(span, a) {
+  font-size: max(12px, 0.88vw);
+  line-height: 1.45;
+}
+@media (max-width: 560px) {
+  html,
+  body {
+    height: 100%;
+    overflow: hidden;
+  }
+  .slide {
+    height: calc(100dvh - 62px);
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  .deck-footer {
+    display: none;
+  }
+}
+/* stylelint-enable no-duplicate-selectors */

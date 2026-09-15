@@ -1,5 +1,5 @@
 <!--
-Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
 Unauthorized use, copying, modification, or distribution is prohibited without written permission.
 Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
 X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -9,6 +9,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
@@ -19,8 +20,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
       content="Night Float economic wind tunnel — a deterministic fictional simulation of agent liquidity."
     />
     <title>Night Float — Economic Wind Tunnel</title>
-    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="icon" href="./favicon.svg?v=8c5f105a652a" type="image/svg+xml" />
+    <link rel="stylesheet" href="./styles.css?v=d5a44b76f144" />
   </head>
   <body>
     <div class="app-shell">
@@ -87,6 +88,15 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
       </header>
 
+      <aside class="model-trust-banner" aria-label="Model confidence boundary">
+        <strong>ILLUSTRATIVE MECHANICS ONLY</strong>
+        <span
+          >One synthetic seed · no partner calibration · no probabilities · not
+          suitable for pricing, forecasting, pilot economics, or regulatory
+          approval</span
+        >
+      </aside>
+
       <main class="workspace">
         <section class="stage-panel" aria-label="Animated market simulation">
           <div class="stage-heading">
@@ -113,10 +123,12 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             <div class="status-stack">
               <div id="phaseBadge" class="phase-badge">PRE-OPEN</div>
               <div class="books-line">
-                <div id="booksBadge" class="books-badge ok">BOOKS OK</div>
+                <div id="booksBadge" class="books-badge ok">
+                  CODED LEDGERS RECONCILE
+                </div>
                 <button
                   class="info-button"
-                  data-info="Two ledgers reconcile on every tick: facility principal and customer safeguarding. A delta above GHS 0.02 aborts the simulation as BOOKS BROKEN."
+                  data-info="Coded principal, fee, and safeguarding arithmetic reconcile every tick. Customer-supported mode is separately marked UNRESOLVED because the model cannot prove an independent funding asset or loss bearer."
                   aria-label="Explain books status"
                 >
                   i
@@ -131,7 +143,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               id="marketCanvas"
               role="img"
               aria-label="Map of simulated mobile-money agents"
+              aria-describedby="marketTextSummary"
             ></canvas>
+            <p id="marketTextSummary" class="sr-only">
+              Market state will be described here as the clock changes.
+            </p>
             <canvas id="packetCanvas" aria-hidden="true"></canvas>
             <div id="eventBanner" class="event-banner" aria-live="polite"></div>
             <div class="legend">
@@ -229,6 +245,24 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               </h2>
             </div>
             <button id="resetButton" class="text-button">Reset</button>
+          </div>
+
+          <div
+            class="control-result-strip"
+            role="group"
+            aria-label="Live result summary"
+          >
+            <span
+              ><small>REFUSED CASH-INS</small><b id="controlRefused">0</b></span
+            >
+            <span
+              ><small>COLLECTED FEES</small
+              ><b id="controlCollected">GHS 0</b></span
+            >
+            <span
+              ><small>UNRESOLVED PRINCIPAL</small
+              ><b id="controlLoss">GHS 0</b></span
+            >
           </div>
 
           <label class="select-control">
@@ -513,7 +547,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
                 <button
                   type="button"
                   class="info-button"
-                  data-info="Repeats the selected one-day tape across 1, 7, 30, 90, 180, or 365 modeled days. Flows and event counts accumulate; utilisation and settlement remain rates; the live map and ledger remain one representative day. This is not a forecast."
+                  data-info="For horizons above one day, repeats only the complete closing frame across 7, 30, 90, 180, or 365 days. This is arithmetic sensitivity from fictional inputs—not a forecast, price, or pilot estimate."
                   aria-label="Explain projection horizon"
                 >
                   i
@@ -534,8 +568,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               <span id="projectionAllocated">GHS 0 allocation volume</span>
             </div>
             <p id="projectionDisclaimer">
-              Same selected day repeated · live market and books stay daily ·
-              model projection, not a forecast
+              Complete synthetic closing day repeated · arithmetic sensitivity,
+              not a forecast
             </p>
           </div>
           <div class="metrics-grid">
@@ -593,18 +627,18 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             <div class="metric-card">
               <div class="metric-label">
                 <span
-                  >System result
+                  >Cash result before costs
                   <button
                     class="info-button"
-                    data-info="Facility fees on utilised principal minus unresolved default loss. The waterfall identifies each fee recipient."
-                    aria-label="Explain system result"
+                    data-info="Fees actually collected by 18:00 minus unresolved principal. Funding, sweep, tax, fraud, recovery, and platform costs are not modeled, so this is not profit."
+                    aria-label="Explain cash result before costs"
                   >
                     i
                   </button></span
                 ><i>MODEL</i>
               </div>
               <strong id="profitMetric">GHS 0</strong>
-              <p id="feeMetric">Gross fees GHS 0</p>
+              <p id="feeMetric">Collected fees GHS 0 · unpaid GHS 0</p>
             </div>
           </div>
 
@@ -654,8 +688,10 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             <div
               id="incidentList"
               class="incident-list"
-              aria-live="polite"
+              tabindex="0"
+              aria-label="Scrollable incident and decision history"
             ></div>
+            <p id="incidentAnnouncement" class="sr-only" aria-live="polite"></p>
           </div>
 
           <div class="boundary-card">
@@ -688,7 +724,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         <div>
           <strong>Night Float</strong
           ><span
-            >Proprietary and Confidential · © 2026 Maku Pauline Mazakpe</span
+            >Proprietary public demo · source-visible · no reuse licence · ©
+            2026 Maku Pauline Mazakpe</span
           >
         </div>
         <nav aria-label="Footer navigation">
@@ -727,7 +764,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             </ul>
           </section>
           <section>
-            <h3>Two machine-checked identities</h3>
+            <h3>Machine-checked coded identities</h3>
             <ul>
               <li>
                 Facility source = unallocated + idle + utilised + repaid +
@@ -736,6 +773,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
               <li>
                 Customer claims = safeguarded vault balance + explained customer
                 loss
+              </li>
+              <li>Fees due = collected + receivable + written off</li>
+              <li>
+                Customer-mode funding separation remains unresolved and never
+                receives a green status
               </li>
             </ul>
           </section>
@@ -760,8 +802,9 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
         <p class="dialog-note">
           All people, balances, packets, incidents, prices, and partner states
-          are fictional model data. Customer-supported mode is a hypothesis, not
-          the default product.
+          are fictional model data. The tape demonstrates mechanics only; it is
+          not calibrated evidence, a price, a forecast, or pilot economics.
+          Customer-supported mode is a hypothesis, not the default product.
         </p>
       </form>
     </dialog>
@@ -773,6 +816,6 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
       aria-live="polite"
       hidden
     ></div>
-    <script type="module" src="./app.js"></script>
+    <script type="module" src="./app.js?v=6485f6ac2338"></script>
   </body>
 </html>

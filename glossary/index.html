@@ -1,5 +1,5 @@
 <!--
-Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
 Unauthorized use, copying, modification, or distribution is prohibited without written permission.
 Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
 X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -9,6 +9,7 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="referrer" content="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       http-equiv="Content-Security-Policy"
@@ -19,8 +20,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
       content="Plain-language guide to the Night Float economic simulation, colours, flows, controls, and financial terms."
     />
     <title>Night Float — Glossary &amp; Model Guide</title>
-    <link rel="icon" href="../favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="./glossary.css" />
+    <link rel="icon" href="../favicon.svg?v=8c5f105a652a" type="image/svg+xml" />
+    <link rel="stylesheet" href="./glossary.css?v=113f6f9d1f28" />
   </head>
   <body>
     <header class="guide-header">
@@ -794,10 +795,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           <article>
             <i class="symbol books-ok">OK</i>
             <div>
-              <h3>BOOKS OK / BROKEN</h3>
+              <h3>RECONCILED / UNRESOLVED / BROKEN</h3>
               <p>
-                Both accounting identities reconcile within GHS 0.02. BROKEN
-                stops the model; it is never allowed to continue silently.
+                Principal, fee, and safeguarding arithmetic reconcile within GHS
+                0.02. Customer-supported funding remains UNRESOLVED until a
+                separate asset and loss bearer exist. BROKEN stops the model.
               </p>
             </div>
           </article>
@@ -911,10 +913,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           </article>
           <article>
             <span>04</span>
-            <h3>System result</h3>
+            <h3>Cash result before costs</h3>
             <p>
-              Fees on utilised principal minus unresolved default loss. Fee
-              shares explain distribution; they are not extra value.
+              Fees actually collected by 18:00 minus unresolved principal. It
+              excludes funding, sweep, tax, fraud, recovery, and platform costs,
+              so it is not profit.
             </p>
           </article>
         </div>
@@ -923,11 +926,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
       <section id="earnings-explainer" class="section-block earnings-explainer">
         <div class="section-heading">
           <p class="eyebrow">Follow the fee · default seed 2026</p>
-          <h2 id="earningsHeadline">GHS 349 is not our profit.</h2>
+          <h2 id="earningsHeadline">Collected cash is not profit.</h2>
           <p>
             The source is always <strong>one simulated operating day</strong>.
             Use the horizon below to repeat that day’s economics transparently.
-            Night Float receives only one part of the fee waterfall.
+            Night Float receives only one part of fees actually collected.
           </p>
         </div>
         <div class="horizon-control">
@@ -977,16 +980,34 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           </article>
           <i aria-hidden="true">=</i>
           <article class="gold-result">
-            <small id="earningsGrossLabel">GROSS FACILITY FEES · 1 DAY</small>
+            <small id="earningsGrossLabel">FEES DUE · 1 DAY</small>
             <strong id="earningsGross">Calculating…</strong>
-            <p>The shared fee pot before default loss.</p>
+            <p>Accrued from use; not necessarily paid by settlement.</p>
           </article>
+        </div>
+        <div
+          class="collection-bridge"
+          role="group"
+          aria-label="Fee collection reconciliation"
+        >
+          <span
+            ><small>FEES ACTUALLY COLLECTED</small
+            ><b id="earningsCollected">—</b></span
+          >
+          <span
+            ><small>UNPAID FEE RECEIVABLE</small
+            ><b id="earningsUnpaid">—</b></span
+          >
+          <p>
+            Only collected cash enters the waterfall. Unpaid fees stay visible
+            and are never distributed as if received.
+          </p>
         </div>
         <div class="earnings-split">
           <article class="waterfall-card">
             <div class="mini-heading">
-              <p class="eyebrow">Where the selected-period fee goes</p>
-              <h3 id="waterfallHeading">The 1 day fee waterfall</h3>
+              <p class="eyebrow">Where collected cash goes</p>
+              <h3 id="waterfallHeading">The 1 day collected-fee waterfall</h3>
             </div>
             <div class="waterfall-row funder-row">
               <span><b>38%</b> Funding partner</span
@@ -1027,13 +1048,13 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         </div>
         <div class="result-definition">
           <div>
-            <small>MODEL-WIDE RESULT</small>
+            <small>CASH RESULT BEFORE UNMODELLED COSTS</small>
             <strong id="earningsSystem">—</strong>
           </div>
           <p>
-            <code>gross facility fees − unresolved principal loss</code>. On the
-            healthy default tape, loss is zero, so the result happens to equal
-            gross fees. It still is not platform profit.
+            <code>collected facility fees − unresolved principal</code>. This is
+            a cash-and-credit-risk subtotal, not profit: funding, sweep,
+            operations, tax, fraud, recovery, and technology costs are absent.
           </p>
         </div>
         <div class="stress-math">
@@ -1050,19 +1071,21 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             </p>
           </div>
           <div class="stress-equation">
-            <span><small>Gross fees</small><b id="stressFees">—</b></span
+            <span><small>Collected fees</small><b id="stressFees">—</b></span
             ><i>−</i
             ><span><small>Default loss</small><b id="stressLoss">—</b></span
             ><i>=</i
             ><span class="negative"
-              ><small>System result</small><b id="stressResult">—</b></span
+              ><small>Cash result before costs</small
+              ><b id="stressResult">—</b></span
             >
           </div>
         </div>
         <aside class="projection-warning" aria-label="Projection warning">
-          <span>TRANSPARENT PROJECTION · NOT A FORECAST</span>
+          <span>ARITHMETIC SENSITIVITY · NOT A FORECAST</span>
           <strong
-            >Every displayed period starts with the same one-day tape.</strong
+            >Every displayed period repeats one complete synthetic closing
+            day.</strong
           >
           <p id="projectionRule">
             This view repeats the same selected one-day assumptions across 1
@@ -1491,27 +1514,26 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             </dd>
           </div>
           <div data-category="money model">
-            <dt>Gross facility fees</dt>
+            <dt>Fees due / accrued fees</dt>
             <dd>
               Utilised principal multiplied by the disclosed daily fee. It is
-              the complete fee pot before splitting it among recipients or
-              subtracting principal loss.
+              what agents owe, not proof cash arrived. Collected cash and unpaid
+              receivables are tracked separately.
             </dd>
           </div>
           <div data-category="money risk model">
             <dt>Default loss</dt>
             <dd>
               Facility principal that has not been returned and is treated as
-              unresolved loss in the model. It is subtracted from gross fees
-              when calculating the system result.
+              unresolved principal in the model. It is subtracted from collected
+              fees in the cash result before costs.
             </dd>
           </div>
           <div data-category="money model">
             <dt>Night Float platform share</dt>
             <dd>
-              The modelled 22% portion of gross facility fees assigned to the
-              Night Float platform. It is revenue before the platform pays its
-              own expenses—not profit.
+              The modelled 22% portion of collected fees assigned to Night
+              Float. It is cash allocation before expenses—not profit.
             </dd>
           </div>
           <div data-category="money">
@@ -1531,11 +1553,11 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
             </dd>
           </div>
           <div data-category="money risk model">
-            <dt>System result</dt>
+            <dt>Cash result before costs</dt>
             <dd>
-              The entire model’s gross facility fees minus unresolved principal
-              loss for the selected horizon. It is not Night Float’s earnings
-              and it is not audited accounting profit.
+              Collected fees minus unresolved principal for the selected
+              horizon. It omits operating and funding costs, is not Night
+              Float’s earnings, and is not audited accounting profit.
             </dd>
           </div>
           <div data-category="model money">
@@ -1669,23 +1691,21 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
           </p>
         </details>
         <details>
-          <summary>Where does the modelled system result come from?</summary>
+          <summary>Where does the cash result before costs come from?</summary>
           <p>
-            Only from the facility fee on utilised principal, less unresolved
-            default loss. Idle money earns no fee and recipient splits do not
-            create extra money.
+            Only from fees collected by 18:00, less unresolved principal. Idle
+            money earns no fee, unpaid fee stays a receivable, and recipient
+            splits do not create extra cash.
           </p>
         </details>
         <details>
           <summary>
-            Is the displayed GHS 349 Night Float’s daily profit?
+            Is the displayed collected-fee amount Night Float’s daily profit?
           </summary>
           <p>
-            No. It is approximately one simulated day’s model-wide gross fees
-            minus principal loss. Under the default waterfall, Night Float
-            receives about GHS 76.74 of that amount as platform revenue before
-            paying any of its own costs. The model does not calculate company
-            profit.
+            No. Fees due, fees collected, and unpaid fees are different. Only
+            collected fees are split; Night Float receives 22% of that cash
+            before paying its own costs. This model does not calculate profit.
           </p>
         </details>
         <details>
@@ -1750,7 +1770,8 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
 
     <footer>
       <p>
-        Night Float · Proprietary and Confidential · © 2026 Maku Pauline Mazakpe
+        Night Float · Proprietary public demo · source-visible · no reuse
+        licence · © 2026 Maku Pauline Mazakpe
       </p>
       <div>
         <a href="../">Control room</a><a href="./">Glossary</a
@@ -1759,6 +1780,6 @@ X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
         ><a href="https://startuptribunal.com/maku">Contact Maku</a>
       </div>
     </footer>
-    <script type="module" src="./glossary.js"></script>
+    <script type="module" src="./glossary.js?v=886151102b46"></script>
   </body>
 </html>

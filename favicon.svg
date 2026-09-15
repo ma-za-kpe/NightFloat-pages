@@ -1,5 +1,5 @@
 <!--
-Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
 Unauthorized use, copying, modification, or distribution is prohibited without written permission.
 Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
 X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal

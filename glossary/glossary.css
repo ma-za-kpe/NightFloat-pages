@@ -1,5 +1,5 @@
 /*
- * Night Float — Proprietary and Confidential. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
+ * Night Float — Proprietary public demonstration · source-visible · no reuse licence. Copyright (c) 2026 Maku Pauline Mazakpe. All rights reserved.
  * Unauthorized use, copying, modification, or distribution is prohibited without written permission.
  * Contact: https://startuptribunal.com/maku | LinkedIn: https://www.linkedin.com/in/maku-mazakpe/ | GitHub: https://github.com/ma-za-kpe
  * X: https://x.com/makumazakpe | StartupTribunal X: https://x.com/startuptribunal
@@ -1699,4 +1699,130 @@ footer a {
   .route-arrow i {
     animation: none;
   }
+}
+
+/* Progressive disclosure and readable controls for long-form mobile use. */
+/* stylelint-disable no-duplicate-selectors -- final accessibility overrides */
+:where(button, select, input, a, summary):focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+.section-heading {
+  position: relative;
+}
+.section-toggle {
+  min-width: 112px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  color: var(--blue);
+  background: rgba(85, 184, 255, 0.07);
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+.collection-bridge {
+  margin-top: 12px;
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  border: 1px solid rgba(85, 184, 255, 0.3);
+  border-radius: 14px;
+  background: rgba(85, 184, 255, 0.07);
+}
+.collection-bridge span {
+  display: grid;
+  gap: 5px;
+}
+.collection-bridge small,
+.collection-bridge p {
+  color: var(--muted);
+  font-size: 12px;
+}
+.collection-bridge b {
+  font-size: clamp(20px, 3vw, 30px);
+}
+.collection-bridge p {
+  grid-column: 1 / -1;
+  margin: 0;
+}
+.eyebrow,
+.metric-explain p,
+.horizon-control label > span,
+.horizon-control small,
+.partner-table td::before,
+.language-row strong::before,
+.language-row del::before,
+.language-row span::before,
+.signal-note,
+footer,
+footer a {
+  font-size: 12px;
+  line-height: 1.45;
+}
+:where(button, select, input, summary, nav a, footer a) {
+  min-height: 44px;
+}
+@media (max-width: 620px) {
+  .guide-header {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+  }
+  .section-block {
+    padding: 30px 0;
+  }
+  .section-block.is-collapsed > :not(.section-heading) {
+    display: none;
+  }
+  .section-heading {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 10px;
+    align-items: end;
+  }
+  .section-heading > :not(.section-toggle) {
+    grid-column: 1;
+  }
+  .section-toggle {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    align-self: center;
+  }
+  .collection-bridge {
+    grid-template-columns: 1fr;
+  }
+  .collection-bridge p {
+    grid-column: 1;
+  }
+}
+@media (forced-colors: active) {
+  .flow-demo,
+  .route-arrow,
+  .symbol,
+  .section-toggle {
+    forced-color-adjust: none;
+    border: 2px solid CanvasText;
+  }
+}
+/* stylelint-enable no-duplicate-selectors */
+
+.guide-header :where(a, small),
+main
+  :where(p, dd, dt, small, span, td, th, time, button, label, del, code, kbd),
+footer :where(p, span, a) {
+  /* The audit found 7–11px copy throughout dense explanatory surfaces. */
+  font-size: max(12px, 0.88vw) !important;
+  line-height: 1.5;
+}
+.candidate-banner b,
+.inventory-icon,
+.language-row :where(b, strong),
+.symbol,
+.day-stamp b,
+.plain-conclusion {
+  font-size: 12px !important;
+  line-height: 1.45;
 }
